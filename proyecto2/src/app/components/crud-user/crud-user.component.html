@@ -1,0 +1,137 @@
+<div class="card-crud">
+
+  <div class="titulo-crud">
+    <h1>Gestion de Usuarios</h1>
+  </div>
+  <div>
+    <mat-tab-group mat-stretch-tabs class="tabs-crud">
+      <mat-tab label="Crear">
+        <mat-card class="divs-tabs-crud">
+          <form>
+            <div class="entremedio">
+              <mat-form-field class="field-crud">
+                <input matInput placeholder="Nombres" [(ngModel)]="user.USUARIO_NAME" name="NOMBRE">
+              </mat-form-field>
+              <mat-form-field class="field-crud">
+                <input matInput placeholder="Apellidos" [(ngModel)]="user.LAST_NAMES" name="APELLIDO">
+              </mat-form-field>
+            </div>
+            <div class="entremedio">
+              <mat-form-field class="field-crud">
+                <input matInput placeholder="Correo" [(ngModel)]="user.MAIL" name="CORREO">
+              </mat-form-field>
+            </div>
+            <div class="entremedio">
+              <mat-form-field class="field-crud">
+                <input matInput placeholder="Contraseña" [formControl]="passControl" [errorStateMatcher]="match"
+                  [(ngModel)]="user.PASSWORD_USER" name="PASSWORD">
+                <mat-hint>1 Mayus, 1 Minus, 1 Numero, 1 caracter, 9 o + longitud</mat-hint>
+                <mat-error *ngIf="passControl.hasError('pattern')">
+                  Contraseña <strong>Erronea</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="entremedio">
+              <mat-form-field class="field-crud">
+                <input matInput placeholder="Direccion" [(ngModel)]="user.CLI_ADDRESS" name="DIRECCION">
+              </mat-form-field>
+              <mat-form-field class="field-crud">
+                <input matInput type="number" placeholder="Telefono" [(ngModel)]="user.TEL_NUMBER" name="TELEFONO">
+              </mat-form-field>
+            </div>
+            <div class="div-field">
+              <!--mat-form-field class="field-crud"-->
+              <div class="fileC">
+                <div class="chooser">
+                  <label for="FOTO">Fotografia</label>
+                  <input type="file" id="FOTO" accept="image/*" (change)="changeImage($event)">
+                </div>
+                <button mat-button (click)="subirImagen()">Subir Logo</button>
+              </div>
+              <!--/mat-form-field-->
+            </div>
+            <div class="div-field">
+              <mat-form-field class="field-crud">
+                <input matInput [matDatepicker]="picker" placeholder="Fecha Nacimiento" [(ngModel)]="fecha"
+                  name="FECHA_NACIMIENTO">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="entremedio">
+              <mat-form-field>
+                <mat-label>Tipo Usuario</mat-label>
+                <mat-select [(ngModel)]="user.TYPE_USUARIO_ID" name="TIPO" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let tipo of tipoUsuarios" [value]="tipo.TYPE_USUARIO_ID">
+                    {{tipo.NAME_TYPE}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="tipoUsuario.hasError('required')">Elija un Tipo de Usuario</mat-error>
+                <mat-hint>{{tipoUsuario.value?.sound}}</mat-hint>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Genero</mat-label>
+                <mat-select [(ngModel)]="user.GENDER_ID" name="GENERO" required>
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let gen of generos" [value]="gen.GENDER_ID">
+                        {{gen.GENDER_NAME}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="genero.hasError('required')">Elija un Genero</mat-error>
+                <mat-hint>{{genero.value?.sound}}</mat-hint>
+            </mat-form-field>
+            </div>
+            <div class="buttons">
+              <button mat-raised-button color="primary" (click)="clear()">limpiar</button>
+              <button mat-raised-button color="primary" (click)="create()">Crear</button>
+            </div>
+          </form>
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="Gestionar">
+        <div class="div-tabs-crud">
+          <mat-table [dataSource]="ELEMENT_DATA" class="mat-elevation-z8">
+            <!-- Position Column -->
+            <ng-container matColumnDef="NO_IDENTIFICADOR">
+              <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.USUARIO_ID}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="USERNAME">
+              <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.USUARIO_NAME}} </mat-cell>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="NOMBRE">
+              <mat-header-cell *matHeaderCellDef> Apellidos </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.LAST_NAMES}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TIPO_USUARIO">
+              <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.NAME_TYPE}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <button mat-icon-button (click)="edit(row)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="delete(row)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

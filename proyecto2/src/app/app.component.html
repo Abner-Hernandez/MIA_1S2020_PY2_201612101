@@ -1,0 +1,42 @@
+<div>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <img class="img-logo" (click)="irHome()" src={{urlLogo}} alt="Mi Logo" title="Cloud">
+      <!--button mat-icon-button class="toolbar-button" aria-label="Example icon-button with a heart icon">
+        <mat-icon>menu</mat-icon>
+      </button-->
+
+      <span id="nombre-app" (click)="irHome()">{{nombreApp}}</span>
+      <span class="toolbar-spacer"></span>
+      <div class="slogan">
+        <div>
+            <div>
+                <h1>Eslogan: {{cadSlogan}}</h1>
+            </div>
+        </div>
+      </div>
+      <span class="toolbar-spacer"></span>
+      <button mat-icon-button class="toolbar-button" aria-label="Example icon-button with a heart icon"
+        [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button *ngIf="!boolean_state" mat-menu-item (click)="openDialog()">Log In</button>
+        <button *ngIf="!boolean_state" mat-menu-item (click)="openRegistrar()">Registrar</button>
+        <button *ngIf="boolean_state" mat-menu-item (click)="logout()">Log Out</button>
+      </mat-menu>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+<nav class="contenedor-option" *ngIf="boolean_state && boolean_estado">
+
+  <a (click)="opciones(1)">Mi Cuenta</a>
+  <a *ngIf="boolean_admin" (click)="opciones(2)">Administrar Usuarios</a>
+  <a *ngIf="boolean_admin" (click)="opciones(3)">Administrar Informacion</a>
+  <a *ngIf="boolean_admin || boolean_cliente" (click)="opciones(4)">Administrar products</a>
+  <a *ngIf="boolean_admin || boolean_cliente" (click)="opciones(5)">Administrar categorias</a>
+
+</nav>
+<div>
+  <router-outlet></router-outlet>
+</div>

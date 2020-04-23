@@ -1,0 +1,42 @@
+<mat-card>
+    <mat-grid-list cols="1"  rowHeight="200px">
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <video class="presentacion" src="{{urlVideo}}" autoplay controls></video>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="3" rowHeight="250px">
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="about">
+                <div class="tabout">
+                    <h1>Mision</h1>
+                </div>
+                <br />
+                <div class="aboutMe">
+                    {{cadMision}}
+                </div>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="about">
+                <div class="tabout">
+                    <h1>Vision</h1>
+                </div>
+                <br />
+                <div class="aboutMe">
+                    {{cadVision}}
+                </div>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="about">
+                <div class="tabout">
+                    <h1>About Me</h1>
+                </div>
+                <br />
+                <div class="aboutMe">
+                    {{cadAbout}}
+                </div>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card>

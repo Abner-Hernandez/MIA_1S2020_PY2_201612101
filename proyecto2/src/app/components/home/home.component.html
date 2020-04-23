@@ -1,0 +1,72 @@
+<div class="main-div">
+    <form class="example-form">
+        <mat-card class="example-card">
+            <mat-card-header>
+                <mat-card-title>{{user.LAST_NAMES + ", "+user.USUARIO_NAME}}</mat-card-title>
+                <mat-card-subtitle>{{user.NAME_TYPE}}</mat-card-subtitle>
+            </mat-card-header>
+            <div class="contenedorFoto">
+                <img class="fotoPerfil" src={{foto}} alt="Foto Perfil">
+            </div>
+            <mat-card-content>
+                <div class="entremedio">
+                    <mat-form-field class="field-crud">
+                        <input matInput placeholder="Nombres" [(ngModel)]="user.USUARIO_NAME" name="NOMBRE">
+                    </mat-form-field>
+                    <mat-form-field class="field-crud">
+                        <input matInput placeholder="Apellidos" [(ngModel)]="user.LAST_NAMES" name="APELLIDO">
+                    </mat-form-field>
+                </div>
+                <div class="entremedio">
+                    <mat-form-field class="field-crud">
+                        <input matInput placeholder="Correo" [(ngModel)]="user.MAIL" name="CORREO">
+                    </mat-form-field>
+                </div>
+                <div class="entremedio">
+                    <mat-form-field class="field-crud">
+                        <input matInput placeholder="Contraseña" [(ngModel)]="user.PASSWORD_USER" name="PASSWORD">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Genero</mat-label>
+                        <mat-select [value]="user.GENDER_ID" required>
+                            <!--mat-option>--</mat-option-->
+                            <mat-option *ngFor="let gen of generos" [value]="gen.GENDER_ID">
+                                {{gen.GENDER_NAME}}
+                            </mat-option>
+                        </mat-select>
+                        <!--mat-error *ngIf="genero.hasError('required')">Elija un Genero</mat-error>
+                            <mat-hint>{{genero.value?.sound}}</mat-hint-->
+                    </mat-form-field>
+                </div>
+                <div class="entremedio">
+                    <mat-form-field class="field-crud">
+                        <input matInput placeholder="Direccion" [(ngModel)]="user.CLI_ADDRESS" name="DIRECCION">
+                    </mat-form-field>
+                    <mat-form-field class="field-crud">
+                        <input matInput placeholder="Telefono" [(ngModel)]="user.TEL_NUMBER" name="TELEFONO">
+                    </mat-form-field>
+                </div>
+                <div class="div-field">
+                    <div class="fileC">
+                        <div class="chooser">
+                            <label for="FOTO">FOTOGRAFIA</label>
+                            <input type="file" id="FOTO" accept="image/*" (change)="changeImage($event)">
+                        </div>
+                        <button mat-button (click)="subirImagen()">Subir Logo</button>
+                    </div>
+                </div>
+                <div class="div-field">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" placeholder="Fecha Nacimiento" [(ngModel)]="fecha"
+                            name="fn">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button (click)="modificar()">Modificar</button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</div>

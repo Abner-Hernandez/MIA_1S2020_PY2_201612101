@@ -1,0 +1,61 @@
+<mat-card class="divs-tabs-crud">
+    <form>
+        <div class="div-field">
+            <mat-form-field class="field-crud">
+                <input matInput placeholder="Nombre" [(ngModel)]="info.PAGE_NAME" name="NOMBRE">
+            </mat-form-field>
+        </div>
+        <div class="div-field">
+            <mat-form-field class="field-crud">
+                <input matInput placeholder="Eslogan" [(ngModel)]="info.PAGE_SLOGAN" name="ESLOGAN">
+            </mat-form-field>
+        </div>
+        <div class="div-field">
+            <div class="div-crud">
+                <div class="fileC">
+                    <div class="chooser">
+                        <label for="LOGO">Logo</label>
+                        <input type="file" id="LOGO" accept="image/*" (change)="changeImage($event)">
+                    </div>
+                    <button mat-button (click)="subirImagen()">Subir Logo</button>
+                </div>
+                <div class="fileC">
+                    <div class="chooser">
+                        <label for="VIDEO">Video de Presentacion</label>
+                        <input type="file" accept="video/*" id="VIDEO" (change)="changeVideo($event)">
+                    </div>
+                    <button mat-button (click)="subirVideo()">Subir Video</button>
+                </div>
+            </div>
+        </div>
+        <div class="div-field">
+            <mat-form-field class="field-crud">
+                <input matInput placeholder="Mision" [(ngModel)]="info.PAGE_MISSION" name="MISION">
+            </mat-form-field>
+        </div>
+        <div class="div-field">
+            <mat-form-field class="field-crud">
+                <input matInput placeholder="Vision" [(ngModel)]="info.PAGE_VISION" name="VISION">
+            </mat-form-field>
+        </div>
+        <div class="div-field">
+            <mat-form-field class="field-crud">
+                <input matInput placeholder="About Me" [(ngModel)]="info.PAGE_ABOUT" name="ABOUT_ME">
+            </mat-form-field>
+        </div>
+        <div class="buttons">
+            <button mat-raised-button color="primary" (click)="modificar()">Modificar</button>
+        </div>
+        <div class="buttons">
+            <div class="fileC">
+                <div class="chooser">
+                    <label for="SYNC">Sincronizar</label>
+                    <input type="file" id="SYNC" (change)="changeFile($event)">
+                </div>
+            </div>
+            <div>
+                <button mat-raised-button color="primary" (click)="sincronizar()">Sincronizar</button>
+            </div>
+        </div>
+    </form>
+</mat-card>

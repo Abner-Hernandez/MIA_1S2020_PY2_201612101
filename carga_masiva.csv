@@ -1,0 +1,11 @@
+codigo,nombre,precio,categoria,color,cantidad
+1,Dell,5233,Computo-Laptop-Accesorio,Blanco,52
+2,Asus,4572,Laptop-componente,Negro,20
+3,HP,3911,Computo,Amarillo,58
+4,Dell,3250,Computo-Laptop-Accesorio,Azul,53
+5,Apple,2589,Informatica-pc,Negro,21
+6,Acer,1928,Computo-Laptop-Accesorio,Amarillo,59
+7,Msi,1267,Informatica-pc,Blanco,54
+8,d21,606,Ropa,Negro,22
+9,a56,785,Ropa-Mujer-Blusa,Amarillo,60
+10,fashion,6457,Ropa-mujer-Jeans,Rosado,100

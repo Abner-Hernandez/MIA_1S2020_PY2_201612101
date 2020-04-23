@@ -1,0 +1,40 @@
+.main-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .fileC{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: auto;
+}
+
+  .contenedorFoto {
+    margin: auto;
+    padding: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .fotoPerfil {
+    margin: auto;
+    width: 350px;
+    height: 300px;
+    border-radius: 100%;
+  }
+
+  mat-card-content {
+    margin-top: 20px;
+  }
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }

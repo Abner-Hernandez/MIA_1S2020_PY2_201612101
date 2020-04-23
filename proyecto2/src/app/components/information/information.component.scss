@@ -1,0 +1,32 @@
+.presentacion {
+    width: 100%;
+    height: 200px;
+    margin: auto;
+}
+
+mat-card {
+    margin: 1% 5%;
+}
+
+.slogan{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: auto;
+    width: 100%;
+    border: 1px solid red;
+}
+
+mat-grid-list {
+    border: 1px solid yellow;
+}
+
+.tabout h1{
+    width: 100%;
+    text-align: center;
+}
+
+.about p {
+    width: 100%;
+    text-align: justify;
+}

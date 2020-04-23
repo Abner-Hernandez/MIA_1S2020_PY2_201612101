@@ -1,0 +1,35 @@
+<mat-card-header>
+  <mat-card-title>Login</mat-card-title>
+</mat-card-header>
+<mat-card-content>
+  <form #userForm="ngForm" class="example-form">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field appearance="legacy" floatLabel="always">
+            <input matInput placeholder="Ingresa tu Username" [(ngModel)]="email" name="USERNAME" required>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field appearance="legacy">
+            <input matInput placeholder="Ingresa tu Contraseña" [type]="hide ? 'password' : 'text'" required
+              name="CLAVE" #CLAVE="ngModel" [(ngModel)]="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <!--mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner-->
+</mat-card-content>
+<mat-card-actions>
+  <div class="buttons">
+    <button mat-raised-button (click)="onNoClick()" color="primary">Cancel</button>
+    <button mat-raised-button (click)="login()" color="primary">Login</button>
+  </div>
+</mat-card-actions>
