@@ -4,11 +4,12 @@ import { Categoria } from 'src/app/models/categoria';
 import { Arbol } from 'src/app/models/arbol';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource, ErrorStateMatcher, MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ArchivoService } from 'src/app/services/archivo.service';
 import { productService } from 'src/app/services/product.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { Color } from 'src/app/models/color';
 
 export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -33,6 +34,12 @@ export class CreateProductComponent implements OnInit {
   registrar: boolean = false;
   previos_name: string = "";
   previos_parent: number ;
+  color = new FormControl('', [Validators.required]);
+  colores: Color[] = [];
+  colores_selected: Color[] = [];
+  color_selected_add: Color ;
+  color_selected_del: Color ;
+  auxProducto: Producto;
 
   constructor(private router: Router, private imagenService: ArchivoService, private productService: productService,public dialog: MatDialog,
     private _snackBar: MatSnackBar,  private categoryService: CategoryService, private changeDetectorRefs: ChangeDetectorRef, 
@@ -54,6 +61,8 @@ export class CreateProductComponent implements OnInit {
       this.editar = true;
     }
 
+    this.auxProducto = this.producto;
+
     let ses = localStorage.getItem("tipo");
     if (ses) {
       if (!(localStorage.getItem("tipo") == 'Administrador') && !(localStorage.getItem("tipo") == 'Server') && !(localStorage.getItem("tipo") == 'Client')) {
@@ -64,6 +73,8 @@ export class CreateProductComponent implements OnInit {
     }
     this.refresh();
     this.get_parent();
+    this.get_all_colors();
+    this.get_all_colors_of_product();
   }
 
   get_parent(){
@@ -83,6 +94,47 @@ export class CreateProductComponent implements OnInit {
     );
   }
 
+  delete_color()
+  {
+    if(this.color_selected_del != null)
+    {
+      this.productService.eliminar_producto_color(this.color_selected_del).subscribe(
+        res => {
+          this._snackBar.open("Se a eliminado el color seleccionado del producto.", "", {
+            duration: 2000,
+          });
+        },
+        error => {
+          this._snackBar.open("Hubo un Error al eliminar el color del producto.", "", {
+            duration: 2000,
+          });
+        }
+      );
+    }
+  }
+
+  add_color()
+  {
+    if(this.color_selected_add != null)
+    {
+      this.color_selected_add.PRODUCT_ID = this.producto.PRODUCT_ID;
+      this.productService.insertar_producto_color(this.color_selected_add).subscribe(
+        res => {
+          this._snackBar.open("Se a agregado un nuevo color al producto.", "", {
+            duration: 2000,
+          });
+          this.get_all_colors_of_product()
+
+        },
+        error => {
+          this._snackBar.open("Hubo un Error al agregar un nuevo color al producto.", "", {
+            duration: 2000,
+          });
+        }
+      );
+    }
+  }
+
   refresh() {
     this.TREE_DATA = [];
     this.categoryService.categorias().subscribe(
@@ -97,6 +149,40 @@ export class CreateProductComponent implements OnInit {
         });
       }
     );
+  }
+
+  get_all_colors()
+  {    
+    this.productService.get_all_colors().subscribe(
+    (colorsbyapi: Color[]) => {
+      if(colorsbyapi.length < 1)
+        return;
+      this.colores = colorsbyapi;
+      this.changeDetectorRefs.detectChanges();
+    },
+    error => {
+      this._snackBar.open("Hubo un Error al Obtener los Colores", "", {
+        duration: 2000,
+      });
+    }
+  );
+  }
+
+  get_all_colors_of_product()
+  {    
+    this.productService.get_all_colors_by(this.producto.PRODUCT_ID).subscribe(
+    (colorsbyapi: Color[]) => {
+      if(colorsbyapi.length < 1)
+        return;
+      this.colores_selected = colorsbyapi;
+      this.changeDetectorRefs.detectChanges();
+    },
+    error => {
+      this._snackBar.open("Hubo un Error al Obtener los Colores", "", {
+        duration: 2000,
+      });
+    }
+  );
   }
 
   createTree(){
@@ -145,38 +231,33 @@ export class CreateProductComponent implements OnInit {
     );
   }
 
-  /*
-  changeImage(event: any){
-    if(event.target.files && event.target.files.length>0){
-      const f = event.target.files[0];
-      const r = new FileReader();
-      r.readAsDataURL(f);
-      r.onload = function l(){
-        this.img = r.result;
-      }.bind(this);
-      this.fi = f;
-    }
+  clear() {
+    this.producto = this.auxProducto;
   }
 
-  subirImagen(){
-    this.imagenService.subir("product-"+localStorage.getItem("username"),this.fi).subscribe(
-      (res: any) =>{
-        this._snackBar.open("Se Subio Correctamente la Fotografia.", "", {
+  getnode(node: Arbol) {
+    this.nombre_categoria = node.name;
+    this.id_selected = node.id;
+  }
+
+  edit()
+  {
+
+    if(this.id_selected > 0)
+      this.producto.CATEGORY_ID = this.id_selected;
+
+    this.productService.update(this.producto).subscribe(
+      res => {
+        this._snackBar.open("Se edito correctamente el producto", "", {
           duration: 2000,
         });
-      },err =>{
-        this._snackBar.open("Hubo un Error al Subir la Fotografia.", "", {
+      },
+      error => {
+        this._snackBar.open("Hubo un Error al Editar el producto", "", {
           duration: 2000,
         });
+        this.producto = this.auxProducto;
       }
     );
-  }
-  */
-
-
-  clear() {
-    this.nombre_categoria = "Ninguno";
-    this.id_selected = -1;
-    this.producto.CATEGORY_ID = this.previos_parent;
   }
 }

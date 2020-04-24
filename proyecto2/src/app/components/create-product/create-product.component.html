@@ -28,6 +28,37 @@
           <input matInput placeholder="URL_IMAGEN" [(ngModel)]="producto.URL_IMG" name="IMAGEN" required>
         </mat-form-field>
       </div>
+      <div class="entremedio">
+        <mat-form-field>
+          <mat-label>Colores del Producto</mat-label>
+          <mat-select [(ngModel)]="color_selected_del" name="Color" >
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let col of colores_selected" [value]="col.COLOR_ID">
+                  {{col.PARENT}}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button (click)="delete_color()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <div class="entremedio">
+        <mat-form-field>
+          <mat-label>Color del sistema</mat-label>
+          <mat-select [(ngModel)]="color_selected_add" name="Color" >
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let col of colores" [value]="col">
+                  {{col.COLOR_NAME}}
+              </mat-option>
+          </mat-select>
+          <mat-error *ngIf="color.hasError('required')">Elija un Color</mat-error>
+          <mat-hint>{{color.value?.sound}}</mat-hint>
+        </mat-form-field>
+          <button mat-icon-button (click)="add_color()">
+            <mat-icon>add_box</mat-icon>
+          </button>
+      </div>
         <!--
         <div class="div-field">
             <!--mat-form-field class="field-crud"-- >

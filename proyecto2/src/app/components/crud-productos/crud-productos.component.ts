@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { ArchivoService } from 'src/app/services/archivo.service';
 import { productService } from 'src/app/services/product.service';
 import { MatSnackBar, ErrorStateMatcher, MatTreeNestedDataSource, MatDialog } from '@angular/material';
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Arbol } from 'src/app/models/arbol';
 import { Categoria } from 'src/app/models/categoria';
 import { CategoryService } from 'src/app/services/category.service';
 import { CreateProductComponent } from '../create-product/create-product.component';
+import { Color } from 'src/app/models/color';
 
 export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -32,6 +33,14 @@ export class CrudProductosComponent implements OnInit {
   nombre_categoria: string = "Ninguno";
   id_selected: number = -1;
   displayedColumns: string[] = ['NO_IDENTIFICADOR', 'NOMBRE', 'CODIGO', 'PRICE', 'actions'];
+  color = new FormControl('', [Validators.required]);
+  colores: Color[] = [];
+  colores_selected: Color[] = [];
+  color_selected: Color ;
+  color_add_edit: string;
+  color_selected_add: Color;
+  //genero = new FormControl('', [Validators.required]);
+  //generos: Genero[] = [];
 
   fi: any;
 
@@ -55,10 +64,32 @@ export class CrudProductosComponent implements OnInit {
     }
     this.producto = new Producto();
     this.refresh();
+    this.get_all_colors();
+  }
+
+  add_color(){
+    this.colores_selected.push(this.color_selected);
+  }
+
+  get_all_colors()
+  {    
+    this.productService.get_all_colors().subscribe(
+    (colorsbyapi: Color[]) => {
+      if(colorsbyapi.length < 1)
+        return;
+      this.colores = colorsbyapi;
+      this.changeDetectorRefs.detectChanges();
+    },
+    error => {
+      this._snackBar.open("Hubo un Error al Obtener los Colores", "", {
+        duration: 2000,
+      });
+    }
+  );
+
   }
 
   refresh() {
-
     this.productService.productosbyid(localStorage.getItem("id")).subscribe(
       (usersByAPI: Producto[]) => {
         if(usersByAPI.length < 1)
@@ -67,7 +98,7 @@ export class CrudProductosComponent implements OnInit {
         this.changeDetectorRefs.detectChanges();
       },
       error => {
-        this._snackBar.open("Hubo un Error al Obtener los Usuarios del Sistema", "", {
+        this._snackBar.open("Hubo un Error al Obtener los Productos", "", {
           duration: 2000,
         });
       }
@@ -81,7 +112,7 @@ export class CrudProductosComponent implements OnInit {
         this.createTree();
       },
       error => {
-        this._snackBar.open("Hubo un Error al Obtener los Usuarios del Sistema", "", {
+        this._snackBar.open("Hubo un Error al Obtener las Categorias", "", {
           duration: 2000,
         });
       }
@@ -91,7 +122,6 @@ export class CrudProductosComponent implements OnInit {
   createTree(){
     this.categoryService.categorias_padres().subscribe(
       (padres: Categoria[]) => {
-
         for(var i = 0 ; i < padres.length ; i++)
         {
           var ab = new Arbol(padres[i].CATEGORY_ID, padres[i].CATEGORY_NAME);
@@ -101,7 +131,7 @@ export class CrudProductosComponent implements OnInit {
         }
       },
       error => {
-        this._snackBar.open("Hubo un Error al Obtener los Usuarios del Sistema", "", {
+        this._snackBar.open("Hubo un Error al Obtener las categorias padres", "", {
           duration: 2000,
         });
       }
@@ -127,11 +157,16 @@ export class CrudProductosComponent implements OnInit {
         this.treeControl.collapseAll();
       },
       error => {
-        this._snackBar.open("Hubo un Error al Obtener los Usuarios del Sistema", "", {
+        this._snackBar.open("Hubo un Error al Obtener las Categorias hijas", "", {
           duration: 2000,
         });
       }
     );
+  }
+
+  getnode(node: Arbol) {
+    this.nombre_categoria = node.name;
+    this.id_selected = node.id;
   }
 
   /*
@@ -163,15 +198,42 @@ export class CrudProductosComponent implements OnInit {
   */
 
   create() {
+    this.producto.USUARIO_ID = parseInt(localStorage.getItem("id"));
+    this.producto.CATEGORY_ID = this.id_selected;
+
     this.productService.insertar(this.producto).subscribe(
       res => {
-        this._snackBar.open("Se Creo Correctamente la categoria.", "", {
-          duration: 2000,
-        });
+
+        this.productService.get_producto_by_name(this.producto.PRODUCT_NAME).subscribe(
+          (prod: Producto[]) => {
+            
+            for(var i = 0 ; i < this.colores_selected.length ; i++)
+            {
+              this.colores_selected[i].PRODUCT_ID = prod[0].PRODUCT_ID;
+              this.productService.insertar_producto_color(this.colores_selected[i]).subscribe(
+                res => {
+                  this._snackBar.open("Se Creo Correctamente el Producto.", "", {
+                    duration: 2000,
+                  });
+                },
+                error => {
+                  this._snackBar.open("Hubo un Error al Crear el Producto.", "", {
+                    duration: 2000,
+                  });
+                });
+            }
+
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al Crear el Producto.", "", {
+              duration: 2000,
+            });
+          });
+        
         this.refresh();
       },
       error => {
-        this._snackBar.open("Hubo un Error al Crear el Usuario.", "", {
+        this._snackBar.open("Hubo un Error al Crear el Producto.", "", {
           duration: 2000,
         });
       }
@@ -198,16 +260,77 @@ export class CrudProductosComponent implements OnInit {
   delete(row: any) {
     this.productService.eliminar(row).subscribe(
       res => {
-        this._snackBar.open("Se Elimino Correctamente al Usuario.", "", {
+        this._snackBar.open("Se Elimino Correctamente al Producto.", "", {
           duration: 2000,
         });
         this.refresh();
       },
       error => {
-        this._snackBar.open("Hubo un Error al Eliminar el Usuario.", "", {
+        this._snackBar.open("Hubo un Error al Eliminar el Producto.", "", {
           duration: 2000,
         });
       }
     );
+  }
+
+  delete_color()
+  {
+    if(this.color_selected_add.COLOR_ID != null)
+    {
+      this.productService.eliminar_color(this.color_selected_add).subscribe(
+        res => {
+          this._snackBar.open("Se Elimino Correctamente el color.", "", {
+            duration: 2000,
+          });
+          this.get_all_colors();
+        },
+        error => {
+          this._snackBar.open("Hubo un Error al Eliminar el color.", "", {
+            duration: 2000,
+          });
+        }
+      );
+    }
+  }
+
+  insertar_color()
+  {
+    if(this.color_add_edit != null)
+    {
+      this.productService.insertar_color(this.color_add_edit).subscribe(
+        res => {
+          this._snackBar.open("Se Creo Correctamente el color.", "", {
+            duration: 2000,
+          });
+          this.get_all_colors();
+        },
+        error => {
+          this._snackBar.open("Hubo un Error al Crear el color.", "", {
+            duration: 2000,
+          });
+        }
+      );
+    }
+  }
+
+  editar_color()
+  {
+    if(this.color_selected_add.COLOR_ID != null && this.color_add_edit != null)
+    {
+      this.color_selected_add.COLOR_NAME = this.color_add_edit;
+      this.productService.editar_color(this.color_selected_add).subscribe(
+        res => {
+          this._snackBar.open("Se Creo Correctamente el color.", "", {
+            duration: 2000,
+          });
+          this.get_all_colors();
+        },
+        error => {
+          this._snackBar.open("Hubo un Error al Crear el color.", "", {
+            duration: 2000,
+          });
+        }
+      );
+    }
   }
 }

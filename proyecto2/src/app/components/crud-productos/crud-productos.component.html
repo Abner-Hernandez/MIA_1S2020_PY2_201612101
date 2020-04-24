@@ -35,6 +35,33 @@
                 <mat-form-field class="field-crud">
                   <input matInput placeholder="URL_IMAGEN" [(ngModel)]="producto.URL_IMG" name="IMAGEN" required>
                 </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Color</mat-label>
+                    <mat-select name="Color" >
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let col of colores_selected" [value]="col.COLOR_ID">
+                            {{col.COLOR_NAME}}
+                        </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+              <div class="entremedio">
+                <mat-form-field>
+                  <mat-label>Color</mat-label>
+                  <mat-select [(ngModel)]="color_selected" name="Color" >
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let col of colores" [value]="col">
+                          {{col.COLOR_NAME}}
+                      </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="color.hasError('required')">Elija un Color</mat-error>
+                  <mat-hint>{{color.value?.sound}}</mat-hint>
+                </mat-form-field>
+                <div class="buttons">
+                  <button mat-icon-button (click)="add_color()">
+                    <mat-icon>add_box</mat-icon>
+                  </button>
+                </div>
               </div>
                 <!--
                 <div class="div-field">
@@ -130,6 +157,37 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
             </div>
+        </mat-tab>
+        <mat-tab label="Colores">
+          <mat-card class="divs-tabs-crud">
+            <form>
+              <div class="entremedio">
+                <mat-form-field class="field-crud">
+                  <input matInput placeholder="Color" [(ngModel)]="color_add_edit" name="COLOR" required>
+                </mat-form-field>
+                <button mat-icon-button (click)="insertar_color()">
+                  <mat-icon>add_box</mat-icon>
+                </button>
+                <mat-form-field>
+                  <mat-label>Color del sistema</mat-label>
+                  <mat-select [(ngModel)]="color_selected_add" name="Color" >
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let col of colores" [value]="col">
+                          {{col.COLOR_NAME}}
+                      </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="color.hasError('required')">Elija un Color</mat-error>
+                  <mat-hint>{{color.value?.sound}}</mat-hint>
+                </mat-form-field>
+                  <button mat-icon-button (click)="delete_color()">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="editar_color()">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+              </div>
+            </form>
+          </mat-card>
         </mat-tab>
       </mat-tab-group>
     </div>
