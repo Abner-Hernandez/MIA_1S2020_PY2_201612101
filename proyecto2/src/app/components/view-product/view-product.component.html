@@ -1,0 +1,15 @@
+<div class="card-crud">
+    <div class="titulo-crud">
+      <h1>{{producto.PRODUCT_NAME}}</h1>
+    </div>
+    <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%" fxLayoutAlign="center">
+        <div fxFlex="50%">
+            <img mat-card-image class="img" src="{{producto.URL_IMG}}">
+        </div>
+        <div fxFlex="50%">
+          <p>{{producto.PRODUCT_NAME}}</p>
+          <p>Descripcion: {{producto.PROD_DESCRIPTION}}</p>
+          <p>Precio: {{producto.PRICE}}</p>
+          <p>Disponibles: {{producto.AVAILABLE_NUMBER}}</p>        
+        </div>
+</div>

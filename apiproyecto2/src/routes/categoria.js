@@ -4,6 +4,7 @@ const {
     categorias,
     por_id,
     categorias_padres,
+    categorias_hijas_id,
     categorias_hijas,
     insert,
     eliminar,
@@ -12,6 +13,7 @@ const {
 
 router.get("/",categorias);
 router.get("/padres",categorias_padres);
+router.post("/gethijasbyid",categorias_hijas_id);
 router.post("/hijas",categorias_hijas);
 router.post("/insert",insert);
 router.post("/eliminar",eliminar);

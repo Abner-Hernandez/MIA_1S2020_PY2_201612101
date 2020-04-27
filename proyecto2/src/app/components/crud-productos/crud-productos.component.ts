@@ -3,7 +3,10 @@ import { Producto } from 'src/app/models/producto';
 import { Router } from '@angular/router';
 import { ArchivoService } from 'src/app/services/archivo.service';
 import { productService } from 'src/app/services/product.service';
-import { MatSnackBar, ErrorStateMatcher, MatTreeNestedDataSource, MatDialog } from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Arbol } from 'src/app/models/arbol';
@@ -332,5 +335,31 @@ export class CrudProductosComponent implements OnInit {
         }
       );
     }
+  }
+
+  changefile(event: any){
+    if(event.target.files && event.target.files.length>0){
+      const f = event.target.files[0];
+      const r = new FileReader();
+      r.readAsDataURL(f);
+      r.onload = function l(){
+        this.img = r.result;
+      }.bind(this);
+      this.fi = f;
+    }
+  }
+
+  subirFile(){
+    this.imagenService.subir("masive.csv",this.fi).subscribe(
+      (res: any) =>{
+        this._snackBar.open("Se Subio Correctamente el archivo de carga.", "", {
+          duration: 2000,
+        });
+      },err =>{
+        this._snackBar.open("Hubo un Error al Subir el archivo de carga.", "", {
+          duration: 2000,
+        });
+      }
+    );
   }
 }

@@ -4,325 +4,231 @@
   </div>
   <div class="reps">
     <mat-accordion>
-
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <strong>Usuarios Filtrados por Año</strong>
+            Reporte 2
           </mat-panel-title>
-          <mat-panel-description>
-            Listado de todos los usuarios nacidos arriba un X año
-          </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div class="buscador">
-          <div>
-            <mat-form-field>
-              <input matInput type="number" placeholder="Año [YYYY]" [(ngModel)]="sYear" name="YEAR">
-            </mat-form-field>
-          </div>
-          <div>
-            <button mat-mini-fab color="accent" (click)="buscarPerYear()">
-              <mat-icon>search</mat-icon>
-            </button>
-            <button mat-mini-fab color="primary" (click)="imprimir(1)">
-              <mat-icon>print</mat-icon>
-            </button>
-          </div>
-        </div>
-        <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="datosXYear" id="XYEAR">
+        <h3>El listado de todos los Servicio de ayuda de sexo masculino que hayan nacido arriba de ​X ​año</h3>
+        <mat-form-field class="field-crud">
+          <input matInput type="number" placeholder="Año X" [(ngModel)]="reporte2" required>
+        </mat-form-field>
+        <button (click)="reporte(2)">
+          <mat-icon>description</mat-icon>
+        </button>
+        <mat-table [dataSource]="REPORTE2" class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="NO_IDENTIFICADOR">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.USUARIO_ID}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="USERNAME">
-              <th mat-header-cell *matHeaderCellDef> UserName </th>
-              <td mat-cell *matCellDef="let element"> {{element.USERNAME}} </td>
-            </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="USERNAME">
+            <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.USUARIO_NAME}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="CORREO">
-              <th mat-header-cell *matHeaderCellDef> Correo </th>
-              <td mat-cell *matCellDef="let element"> {{element.CORREO}} </td>
-            </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="NOMBRE">
+            <mat-header-cell *matHeaderCellDef> Apellidos </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.LAST_NAMES}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="NOMBRE">
-              <th mat-header-cell *matHeaderCellDef> Nombre </th>
-              <td mat-cell *matCellDef="let element"> {{element.NOMBRE}} </td>
-            </ng-container>
+          <ng-container matColumnDef="TIPO_USUARIO">
+            <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.NAME_TYPE}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="APELLIDO">
-              <th mat-header-cell *matHeaderCellDef> Apellido </th>
-              <td mat-cell *matCellDef="let element"> {{element.APELLIDO}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="FECHA">
-              <th mat-header-cell *matHeaderCellDef> Fecha Nacimiento </th>
-              <td mat-cell *matCellDef="let element"> {{element.FECHA_NACIMIENTO}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-        </div>
+          <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+        </mat-table>
       </mat-expansion-panel>
-
-
-      <mat-expansion-panel (click)="getTree()">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <strong>Archivos y Carpetas</strong>
-          </mat-panel-title>
-          <mat-panel-description>
-            Listado de carpetas y Archivos en forma de árbol
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="buscador">
-          <div>
-          </div>
-          <div>
-            <button mat-mini-fab color="primary" (click)="imprimir(2)">
-              <mat-icon>print</mat-icon>
-            </button>
-          </div>
-        </div>
-        <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataTree" id="TREE">
-
-            <ng-container matColumnDef="ID">
-              <th mat-header-cell *matHeaderCellDef> ID </th>
-              <td mat-cell *matCellDef="let element"> {{element.ID_ESTRUCTURA}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="NOMBRE">
-              <th mat-header-cell *matHeaderCellDef> Nombre </th>
-              <td mat-cell *matCellDef="let element"> {{element.NOMBRE}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="PROPIETARIO">
-              <th mat-header-cell *matHeaderCellDef> Propietario </th>
-              <td mat-cell *matCellDef="let element"> {{element.PROPIETARIO}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="TIPO">
-              <th mat-header-cell *matHeaderCellDef> Tipo </th>
-              <td mat-cell *matCellDef="let element"> {{element.TIPO}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="PADRE">
-              <th mat-header-cell *matHeaderCellDef> Padre </th>
-              <td mat-cell *matCellDef="let element"> {{element.C_PADRE}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsTree"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsTree;"></tr>
-          </table>
-
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-        </div>
-      </mat-expansion-panel>
-
-
+    </mat-accordion>
+    <mat-accordion>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <strong>Modificaciones de Clientes</strong>
+            Reporte 3
           </mat-panel-title>
-          <mat-panel-description>
-            Listado de Clientes que han realizado una modificación en X carpeta en un rango de fechas de Y hasta Z
-          </mat-panel-description>
         </mat-expansion-panel-header>
-        <div class="buscador">
-          <div>
-            <mat-form-field>
-              <mat-label>Estructura</mat-label>
-              <mat-select [(ngModel)]="txtEstructura" name="dlEstructura" required>
-                <mat-option>--</mat-option>
-                <mat-option *ngFor="let v of dataEstructuras" [value]="v.NOMBRE">
-                  {{v.NOMBRE}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field class="field-crud">
-              <input matInput [matDatepicker]="pickerfmin" placeholder="Fecha Minima" [(ngModel)]="fmin" name="FMIN">
-              <mat-datepicker-toggle matSuffix [for]="pickerfmin"></mat-datepicker-toggle>
-              <mat-datepicker #pickerfmin></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field class="field-crud">
-              <input matInput [matDatepicker]="pickerfmax" placeholder="Fecha Maxima" [(ngModel)]="fmax"
-                name="FMAX">
-              <mat-datepicker-toggle matSuffix [for]="pickerfmax"></mat-datepicker-toggle>
-              <mat-datepicker #pickerfmax></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div>
-            <button mat-mini-fab color="accent" (click)="searchPerFolder()">
-              <mat-icon>search</mat-icon>
-            </button>
-            <button mat-mini-fab color="primary" (click)="imprimir(2)">
-              <mat-icon>print</mat-icon>
-            </button>
-          </div>
-        </div>
-        <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataEUsers" id="TREE">
 
-            <ng-container matColumnDef="NOMBRE">
-              <th mat-header-cell *matHeaderCellDef> Nombre </th>
-              <td mat-cell *matCellDef="let element"> {{element.NOMBRE}} </td>
-            </ng-container>
+        <h3>El listado de todos los administradores de sexo femenino que hayan nacido debajo de Y ​año</h3>
+        <mat-form-field class="field-crud">
+          <input matInput type="number" placeholder="Año Y" [(ngModel)]="reporte3" required>
+        </mat-form-field>
+        <button (click)="reporte(3)">
+          <mat-icon>description</mat-icon>
+        </button>
+        <mat-table [dataSource]="REPORTE3" class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="NO_IDENTIFICADOR">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.USUARIO_ID}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="APELLIDO">
-              <th mat-header-cell *matHeaderCellDef> Apellido </th>
-              <td mat-cell *matCellDef="let element"> {{element.APELLIDO}} </td>
-            </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="USERNAME">
+            <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.USUARIO_NAME}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="USERNAME">
-              <th mat-header-cell *matHeaderCellDef> UserName </th>
-              <td mat-cell *matCellDef="let element"> {{element.USERNAME}} </td>
-            </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="NOMBRE">
+            <mat-header-cell *matHeaderCellDef> Apellidos </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.LAST_NAMES}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="TIPO">
-              <th mat-header-cell *matHeaderCellDef> Tipo </th>
-              <td mat-cell *matCellDef="let element"> {{element.TIPO_USUARIO}} </td>
-            </ng-container>
+          <ng-container matColumnDef="TIPO_USUARIO">
+            <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.NAME_TYPE}} </mat-cell>
+          </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsClientess"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsClientess;"></tr>
-          </table>
-
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-        </div>
+          <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
+        </mat-table>
       </mat-expansion-panel>
-
-
-      <mat-expansion-panel (click)="obtenerBitacora()" (opened)="panelEstado = true" (closed)="panelEstado = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <strong>Bitácora</strong>
-          </mat-panel-title>
-          <mat-panel-description>
-            Bitácora de cambios realizados.
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="buscador">
-          <div>
-          </div>
-          <div>
-            <button mat-mini-fab color="primary" (click)="imprimir(4)">
-              <mat-icon>print</mat-icon>
-            </button>
-          </div>
-        </div>
-        <div class="mat-elevation-z8">
-          <table id="BITACORA" mat-table [dataSource]="datosBitacora">
-
-            <ng-container matColumnDef="ID">
-              <th mat-header-cell *matHeaderCellDef> ID </th>
-              <td mat-cell *matCellDef="let element"> {{element.ID_BITACORA}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="USUARIO">
-              <th mat-header-cell *matHeaderCellDef> Usuario </th>
-              <td mat-cell *matCellDef="let element"> {{element.USUARIO}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="ESTRUCTURA">
-              <th mat-header-cell *matHeaderCellDef> Estructura </th>
-              <td mat-cell *matCellDef="let element"> {{element.ESTRUCTURA}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="ACCION">
-              <th mat-header-cell *matHeaderCellDef> Accion </th>
-              <td mat-cell *matCellDef="let element"> {{element.ACCION}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="FECHA">
-              <th mat-header-cell *matHeaderCellDef> Fecha </th>
-              <td mat-cell *matCellDef="let element"> {{element.FECHA}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsbitacora"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsbitacora;"></tr>
-          </table>
-
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-        </div>
-      </mat-expansion-panel>
-
+    </mat-accordion>
+    <mat-accordion>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <strong>Clientes Registrados</strong>
+            Reporte 4
           </mat-panel-title>
-          <mat-panel-description>
-            Listado de clientes registrados en una Y fecha, y el número de carpetas y archivos a los cuales tiene
-            acceso.
-          </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div class="buscador">
-          <div>
-            <mat-form-field class="field-crud">
-              <input matInput [matDatepicker]="picker" placeholder="Fecha Nacimiento" [(ngModel)]="fecha"
-                name="FECHA_NACIMIENTO">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div>
-            <button mat-mini-fab color="accent" (click)="searchPerDate()">
-              <mat-icon>search</mat-icon>
-            </button>
-            <button mat-mini-fab color="primary" (click)="imprimir(5)">
-              <mat-icon>print</mat-icon>
-            </button>
-          </div>
-        </div>
-        <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataXDate" id="REGISTRADOS">
+        <h3>Los clientes que más ganancias han generado ordenandos de mayor a menor</h3>
+        <button (click)="reporte(4)">
+          <mat-icon>description</mat-icon>
+        </button>
+        <mat-table [dataSource]="REPORTE4" class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="NO_IDENTIFICADOR">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.USUARIO_ID}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="USERNAME">
-              <th mat-header-cell *matHeaderCellDef> UserName </th>
-              <td mat-cell *matCellDef="let element"> {{element.USERNAME}} </td>
-            </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="USERNAME">
+            <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.USUARIO_NAME}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="CORREO">
-              <th mat-header-cell *matHeaderCellDef> Correo </th>
-              <td mat-cell *matCellDef="let element"> {{element.CORREO}} </td>
-            </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="NOMBRE">
+            <mat-header-cell *matHeaderCellDef> Apellidos </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.LAST_NAMES}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="NOMBRE">
-              <th mat-header-cell *matHeaderCellDef> Nombre </th>
-              <td mat-cell *matCellDef="let element"> {{element.NOMBRE}} </td>
-            </ng-container>
+          <ng-container matColumnDef="TIPO_USUARIO">
+            <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.NAME_TYPE}} </mat-cell>
+          </ng-container>
 
-            <ng-container matColumnDef="APELLIDO">
-              <th mat-header-cell *matHeaderCellDef> Apellido </th>
-              <td mat-cell *matCellDef="let element"> {{element.APELLIDO}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="FECHA">
-              <th mat-header-cell *matHeaderCellDef> Fecha Registro </th>
-              <td mat-cell *matCellDef="let element"> {{element.FECHA_REGISTRO}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="ESTRUCTURAS">
-              <th mat-header-cell *matHeaderCellDef> No. Archivos y Carpetas </th>
-              <td mat-cell *matCellDef="let element"> {{element.ESTRUCTURAS}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsDate"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsDate;"></tr>
-          </table>
-
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-        </div>
+          <mat-header-row *matHeaderRowDef="displayedColumns4"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns4;"></mat-row>
+        </mat-table>
       </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Reporte 6
+          </mat-panel-title>
+        </mat-expansion-panel-header>
 
+        <h3>Top 3 de productos más vendidos</h3>
+        <button (click)="reporte(6)">
+          <mat-icon>description</mat-icon>
+        </button>
+        <mat-table [dataSource]="REPORTE6" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="NOMBRE">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.PRODUCT_NAME}} </mat-cell>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="VENTAS">
+            <mat-header-cell *matHeaderCellDef> No. Ventas </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.VENTAS}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns6"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns6;"></mat-row>
+        </mat-table>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Reporte 7
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <h3>Top 3 de clientes que más productos tenga en su catálogo</h3>
+        <button (click)="reporte(7)">
+          <mat-icon>description</mat-icon>
+        </button>
+        <mat-table [dataSource]="REPORTE7" class="mat-elevation-z8">
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="NOMBRE">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.USUARIO_NAME}} </mat-cell>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="PRODUCTOS">
+            <mat-header-cell *matHeaderCellDef> No. Productos del Usuario </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.PRODUCTOS}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns7"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns7;"></mat-row>
+        </mat-table>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Reporte 10
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <h3>Todos los productos que tengan ​ X ​ cantidad disponible</h3>
+        <mat-form-field class="field-crud">
+          <input matInput type="number" placeholder="Cantidad Disponible" [(ngModel)]="reporte10" required>
+        </mat-form-field>
+        <button (click)="reporte(10)">
+          <mat-icon>description</mat-icon>
+        </button>
+        <mat-table [dataSource]="REPORTE10" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="NOMBRE">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.PRODUCT_NAME}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="CODIGO">
+            <mat-header-cell *matHeaderCellDef> Codigo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.PRODUCT_COD}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="PRICE">
+            <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.PRICE}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns10"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns10;"></mat-row>
+        </mat-table>
+      </mat-expansion-panel>
     </mat-accordion>
   </div>
 </mat-card>

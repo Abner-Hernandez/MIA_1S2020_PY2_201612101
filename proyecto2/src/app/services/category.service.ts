@@ -23,6 +23,10 @@ export class CategoryService {
     return this.http.post(this.URL_API+"/hijas",id);
   }
 
+  get_all_hijas(id: number){
+    return this.http.post(this.URL_API+"/gethijasbyid",{CATEGORY_ID: id});
+  }
+
   get_data_by_id(categoria: Categoria){
     return this.http.post(this.URL_API+"/getbyid", categoria);
   }

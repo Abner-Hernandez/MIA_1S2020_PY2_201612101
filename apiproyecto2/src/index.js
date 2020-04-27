@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 const fs = require('fs');
+var terminal = require('child_process').spawn('bash');
 
 const path = require('path');
 const multer = require('multer');
@@ -55,9 +56,24 @@ app.get( '/api/archivo/obtener/:name', (req, res) => {
 });
 
 app.post('/api/archivo/subir', upload.single('file'), (req,res) => {
-    
     console.log(`Ubicacion: ${req.hostname}/${req.file.path}`);
     return res.send(req.file);
+});
+
+app.get('/api/producto/cargamasiva', (req,res) => {
+    //terminal.stdin.write('node --version\n');
+    terminal.stdin.write('cp ../proyecto2/src/assets/masive.csv /home/Archivos/\n');
+    terminal.stdin.write('docker cp /home/Archivos/masive.csv c74cd1533346:/cargamasiva/masive.csv\n');
+    return res.send({RESPUESTA: 'correcto'});
+});
+
+terminal.stdout.on('data', function (data) { 
+    console.log('stdout: ' + data); 
+    terminal.stdin.end();
+}); 
+
+terminal.on('exit', function (code) { 
+    console.log('child process exited with code ' + code);
 });
 
 //starting

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DatosService } from 'src/app/services/datos.service';
 import { Datos } from 'src/app/models/datos';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArchivoService } from 'src/app/services/archivo.service';
 import { User } from 'src/app/models/user';
@@ -19,9 +19,8 @@ export class AdmindatosComponent implements OnInit {
   img: any;
   fi: any;
   vi: any;
-  uSync: User[];
 
-  constructor(private infoDatos: DatosService, private _snackBar: MatSnackBar, private router: Router
+  constructor(private infoDatos: DatosService, private _snackBar: MatSnackBar, private router: Router, private changeDetectorRefs: ChangeDetectorRef
     , private imagenService: ArchivoService,private userService: UsersService) { }
 
   ngOnInit() {
@@ -56,6 +55,7 @@ export class AdmindatosComponent implements OnInit {
     this.infoDatos.getInformation().subscribe(
       (infoByApi: Datos[]) => {
         this.info = infoByApi[0];
+        this.changeDetectorRefs.detectChanges();
       },
       error => {
         this._snackBar.open("Error al Obtener los Datos", "", {
@@ -137,26 +137,6 @@ export class AdmindatosComponent implements OnInit {
     //console.log(s);
     
     
-  }
-
-  sincronizar() {
-    for(let i = 0; i < this.uSync.length; i++){
-      var s = new User();
-      s.USUARIO_NAME = this.uSync[i].USUARIO_NAME.trim();
-      s.PASSWORD_USER = this.uSync[i].PASSWORD_USER.trim();
-      this.userService.sync(s).subscribe(
-        res => {
-          this._snackBar.open("Se Syncronizo Correctamente el Usuario: "+this.uSync[i].USUARIO_NAME, "", {
-            duration: 2000,
-          });
-        },
-        err =>{
-          this._snackBar.open("Hubo un Error al Sincroniar el Usuario: "+this.uSync[i].USUARIO_NAME, "", {
-            duration: 2000,
-          });
-        }
-      );
-    }
   }
 
 }

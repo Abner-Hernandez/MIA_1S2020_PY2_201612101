@@ -33,6 +33,7 @@ export class User {
     GENDER_ID: string;
     AVAILABLE_CREDIT: number;
     CLASS_CLIENT_ID: number;
+    NAME_TYPE: string;
     //TIPO_USUARIO: string;
 }
 

@@ -1,48 +1,32 @@
 const dao = require('../dbo/dao');
 
 module.exports = {
-    xYear: async (req,res,next) =>{
-        sql = "select * from usuario where to_date(fecha_nacimiento,'dd/mm/yyyy') > to_date(:y,'yyyy')";
-        console.log(req.body);
-        const y = req.body.YEAR;
-        
-        dao.open(sql,[y],false,res);
+
+    reporte2: async (req, res, next) =>{
+        const year = parseInt(req.body.YEAR);
+        sql = "select u.* from usuario u, type_usuario tu, gender g where to_date('01/01/'||:year ,'DD/MM/YY') < to_date(u.birth_date,'DD/MM/YY') and u.type_usuario_id = tu.type_usuario_id and lower(tu.name_type) = 'server' and g.gender_id= u.gender_id and lower(g.gender_name) = 'masculino'";
+        dao.open(sql,[year],false,res);
     },
-    tree: async (req, res, next) => {
-        sql = "select e.id_estructura,e.nombre,u.username as propietario,t.nombre as tipo,e.c_padre"+
-        " from estructura e, usuario u,tipo_estructura t"+
-        " where e.id_tipo = t.id_tipo and"+
-        " u.no_identificador = e.id_propietario"+
-        " start with e.nombre = '/'"+
-        " connect by prior id_estructura = c_padre";
+    reporte3: async (req, res, next) =>{
+        const year = parseInt(req.body.YEAR);
+        sql = "select u.* from usuario u, type_usuario tu, gender g where to_date('01/01/'||:year ,'DD/MM/YY') > to_date(u.birth_date,'DD/MM/YY') and u.type_usuario_id = tu.type_usuario_id and lower(tu.name_type) = 'administrador' and g.gender_id= u.gender_id and lower(g.gender_name) = 'femenino'";
+        dao.open(sql,[year],false,res);
+    },
+    reporte4: async (req, res, next) =>{
+        sql = "select u.* from usuario u, type_usuario tu where u.type_usuario_id = tu.type_usuario_id and lower(tu.name_type) = 'client'  ORDER BY u.profit_made desc";
         dao.open(sql,[],false,res);
     },
-    bitacora: async (req,res,next) => {
-        sql = "select b.id_bitacora, u.nombre as usuario, e.nombre as estructura, b.accion, b.fecha from bitacora b, usuario u, estructura e where b.id_usuario = u.no_identificador and b.id_estructura = e.id_estructura";
+    reporte6: async (req, res, next) =>{
+        sql = "select * from (select p.product_name, SUM(di.number_product)VENTAS from product p, detail_invoice di where p.product_id = di.product_id GROUP BY p.product_name ORDER BY SUM(di.number_product) desc) where ROWNUM < 4";
         dao.open(sql,[],false,res);
     },
-    xEstructuras: async (req,res,next) =>{
-        sql = "select u.no_identificador,u.username,u.correo,u.nombre,u.apellido,u.fecha_registro,count(*) as estructuras"+
-        " from usuario u, estructura e"+
-        " where e.id_propietario = u.no_identificador"+
-        " group by u.no_identificador,u.username,u.correo,u.nombre,u.apellido,u.fecha_registro"+
-        " having trunc(to_date(u.fecha_registro,'dd/mm/yyyy hh24:mi:ss')) = to_date(:dat,'dd/mm/yyyy')";
-        const dat = req.body.DATE;
-        console.log(req.body);
-        dao.open(sql,[dat],false,res);
+    reporte7: async (req, res, next) =>{
+        sql = "select * from (SELECT u.usuario_name, COUNT(*)PRODUCTOS from usuario u INNER JOIN product p ON p.usuario_id = u.usuario_id GROUP BY u.usuario_name ORDER BY COUNT(*) desc) where ROWNUM < 4";
+        dao.open(sql,[],false,res);
     },
-    xFolder: async (req, res, next) => {
-        sql = "select u.nombre,u.apellido,u.username, t.tipo_usuario"+
-        " from bitacora b, estructura e, usuario u, tipo_usuario t"+
-        " where b.id_usuario = u.no_identificador"+
-        " and b.id_estructura = e.id_estructura"+
-        " and t.id_tipo_usuario = u.id_tipo_usuario"+
-        " and e.nombre = :nombre"+
-        " and to_date(:fmin,'dd/mm/yyyy') < trunc(to_date(b.fecha,'dd/mm/yyyy hh24:mi:ss'))"+
-        " and to_date(:fmax,'dd/mm/yyyy') > trunc(to_date(b.fecha,'dd/mm/yyyy hh24:mi:ss'))"
-        const fmin = req.body.FMIN;
-        const fmax = req.body.FMAX;
-        const nombre = req.body.NOMBRE;
-        dao.open(sql,[nombre,fmin,fmax],false,res);
-    }
+    reporte10: async (req, res, next) =>{
+        const disponibles = parseInt(req.body.DISPONIBLES);
+        sql = "select p.* from product p where p.available_number = :disponibles";
+        dao.open(sql,[disponibles],false,res);
+    },
 };

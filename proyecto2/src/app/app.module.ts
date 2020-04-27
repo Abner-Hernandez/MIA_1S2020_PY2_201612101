@@ -6,7 +6,27 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatInputModule, MatButtonModule, MatSelectModule, MatIconModule, MatToolbarModule, MatCardModule, MatProgressSpinnerModule, MatFormFieldModule, MatMenuModule, MatTableModule, MatDialogModule, MatSnackBarModule, MatTabsModule, MatGridListModule, MatNativeDateModule, MatTreeModule, MatBottomSheetModule, MatListModule, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, MatExpansionModule, MatPaginatorModule } from '@angular/material';
+import { MatBottomSheetModule, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS } from '@angular/material/bottom-sheet';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTreeModule } from '@angular/material/tree';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
@@ -22,6 +42,11 @@ import { CrudProductosComponent } from './components/crud-productos/crud-product
 import { CrudCategoryComponent } from './components/crud-category/crud-category.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component';
 import { CreateProductComponent } from './components/create-product/create-product.component';
+import { CrudTiendaComponent } from './components/crud-tienda/crud-tienda.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ViewProductComponent } from './components/view-product/view-product.component';
+import { CreateFacturaComponent } from './components/create-factura/create-factura.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +64,9 @@ import { CreateProductComponent } from './components/create-product/create-produ
     CrudCategoryComponent,
     CreateCategoryComponent,
     CreateProductComponent,
+    CrudTiendaComponent,
+    ViewProductComponent,
+    CreateFacturaComponent,
   ],
   imports: [
     HttpClientModule,
@@ -68,10 +96,13 @@ import { CreateProductComponent } from './components/create-product/create-produ
     MatTableModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatTabsModule
+    MatTabsModule,
+    MatRadioModule,
+    MatSlideToggleModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [LoginComponent, CreateUserComponent, CreateCategoryComponent, CreateProductComponent]
+  entryComponents: [LoginComponent, CreateUserComponent, CreateCategoryComponent, CreateProductComponent, ViewProductComponent, CreateFacturaComponent, ReportesComponent]
 })
 export class AppModule { }

@@ -14,9 +14,13 @@ module.exports = {
         sql = "select * from category where category_parent is null";
         dao.open(sql,[],false,res);
     },
+    categorias_hijas_id: async (req,res,next) =>{
+        const id_categoria = parseInt(req.body.CATEGORY_ID);
+        sql = "select c.*, level from category c start with c.category_parent = :id_categoria CONNECT by c.category_parent = prior c.category_id order by level";
+        dao.open(sql,[id_categoria],false,res);
+    },    
     categorias_hijas: async (req,res,next) =>{
         const id_categoria = parseInt(req.body.CATEGORIA);
-        console.log(id_categoria)
         sql = "select * from category where CATEGORY_PARENT = :id_categoria";
         dao.open(sql,[id_categoria],false,res);
     },

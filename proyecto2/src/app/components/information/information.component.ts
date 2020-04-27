@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatosService } from 'src/app/services/datos.service';
 import { Datos } from 'src/app/models/datos';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as RandExp from "randexp";
 
 @Component({

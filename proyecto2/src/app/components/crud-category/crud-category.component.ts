@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroupDirective, FormControl, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher, MatDialog, MatSnackBar, MatTreeNestedDataSource } from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Categoria } from 'src/app/models/categoria';
 import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/services/category.service';

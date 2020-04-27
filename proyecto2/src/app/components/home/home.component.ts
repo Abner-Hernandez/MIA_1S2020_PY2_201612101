@@ -5,7 +5,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Genero } from 'src/app/models/genero';
 import { GeneroService } from 'src/app/services/genero.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArchivoService } from 'src/app/services/archivo.service';
 import { formatDate } from '@angular/common';
 

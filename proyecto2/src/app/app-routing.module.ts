@@ -9,6 +9,8 @@ import { VerificarComponent } from './components/verificar/verificar.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { CrudCategoryComponent } from './components/crud-category/crud-category.component';
 import { CrudProductosComponent } from './components/crud-productos/crud-productos.component';
+import { CrudTiendaComponent } from './components/crud-tienda/crud-tienda.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
   //{ path: '' , component: LoginComponent },
@@ -20,6 +22,7 @@ const routes: Routes = [
   { path: 'categorias' , component: CrudCategoryComponent },
   { path: 'verificar' , component: VerificarComponent },
   { path: 'reportes' , component: ReportesComponent },
+  { path: 'tienda' , component: CrudTiendaComponent },
   { path: '' , component: InformationComponent }
 ];
 

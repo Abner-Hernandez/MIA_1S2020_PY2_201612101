@@ -2,7 +2,10 @@ import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { Categoria } from 'src/app/models/categoria';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
-import { ErrorStateMatcher, MatDialogRef, MAT_DIALOG_DATA, MatTreeNestedDataSource, MatSnackBar } from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { CategoryService } from 'src/app/services/category.service';
 import { NestedTreeControl } from '@angular/cdk/tree';
@@ -70,8 +73,8 @@ export class CreateCategoryComponent implements OnInit {
     this.categoriaService.categorias().subscribe(
       (usersByAPI: Categoria[]) => {
         this.ELEMENT_DATA = usersByAPI;
-        this.changeDetectorRefs.detectChanges();
         this.createTree();
+        this.changeDetectorRefs.detectChanges();
       },
       error => {
         this._snackBar.open("Hubo un Error al Obtener los Usuarios del Sistema", "", {

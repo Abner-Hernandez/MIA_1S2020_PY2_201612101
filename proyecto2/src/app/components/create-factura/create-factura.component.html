@@ -1,0 +1,51 @@
+<div class="card-crud">
+    <div class="titulo-crud">
+      <h1>Facturacion</h1>
+    </div>
+    <div>
+        <div class="div-tabs-crud">
+            <mat-table [dataSource]="ELEMENT_DATA" class="mat-elevation-z8">
+              <!-- Position Column -->
+              <ng-container matColumnDef="Nombre">
+                <mat-header-cell *matHeaderCellDef> Producto </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.PRODUCT_NAME}} </mat-cell>
+              </ng-container>
+  
+              <!-- Name Column -->
+              <ng-container matColumnDef="Precio">
+                <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.PRICE}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="Cantidad">
+                <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.NUMBER_PRODUCT}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="Total">
+                <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.NUMBER_PRODUCT*element.PRICE}}</mat-cell>
+              </ng-container>
+              
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <button mat-icon-button color="warn" (click)="delete(row)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </mat-cell>
+              </ng-container>
+  
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            <div class="entremedio">
+              <h3>Total a Pagar: {{total}}</h3>
+              <button mat-icon-button (click)="pagar()">
+                <mat-icon>payment</mat-icon>
+              </button>   
+            </div>
+          </div>
+        </div> 
+
+</div>

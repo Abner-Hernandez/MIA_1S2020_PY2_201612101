@@ -1,5 +1,5 @@
 const dao = require("../dbo/dao");
-
+var terminal = require('child_process').spawn('bash');
 
 module.exports = {
     
@@ -14,6 +14,36 @@ module.exports = {
         const categoria_id = parseInt(req.body.CATEGORY_ID);
         sql = "begin insertar_producto(:nombre, :codigo, :price, :usuario, :disponibles,:descripcion, :categoria_id, :imagen); end;";
         dao.open(sql,[nombre,codigo,price,usuario,disponibles,descripcion,categoria_id, imagen],true,res);
+    },
+    insert_invoice: async (req, res, next) =>{
+        const user = parseInt(req.body.USUARIO);
+        sql = "begin insertar_factura(:user); end;";
+        dao.open(sql,[user],true,res);
+    },
+    insert_invoice_prod: async (req, res, next) =>{
+        const user = parseInt(req.body.USUARIO);
+        const product = parseInt(req.body.PRODUCTO);
+        const cant = parseInt(req.body.CANTIDAD);
+        const precio = parseInt(req.body.PRECIO);
+        sql = "begin insertar_producto_factura(:user, :product, :cant, :precio); end;";
+        dao.open(sql,[user, product, cant, precio],true,res);
+    },
+    insertcart: async (req, res, next) =>{
+        const user = parseInt(req.body.USUARIO);
+        const product = parseInt(req.body.PRODUCTO);
+        const cant = parseInt(req.body.CANTIDAD);
+        const precio = parseInt(req.body.PRECIO);
+        sql = "begin insertar_producto_carrito(:user, :product, :cant, :precio); end;";
+        dao.open(sql,[user, product, cant, precio],true,res);
+    },
+    eliminar_producto_cart: async (req, res, next) =>{
+        const user = parseInt(req.body.USUARIO);
+        const product = parseInt(req.body.PRODUCTO);
+        const cant = parseInt(req.body.CANTIDAD);
+        const precio = parseInt(req.body.PRECIO);
+        console.log(req.body);
+        sql = "begin eliminar_producto_carrito(:user, :product, :cant, :precio); end;";
+        dao.open(sql,[user, product, cant, precio],true,res);
     },
     getIdproducto: async (req, res, next) =>{
         console.log(req.body);
@@ -49,6 +79,10 @@ module.exports = {
         sql = "select * from color";
         dao.open(sql,[],false,res);
     },
+    get_all_products: async (req, res, next) =>{
+        sql = "select * from product";
+        dao.open(sql,[],false,res);
+    },
     insertar_color: async (req, res, next) =>{
         const color = req.body.COLOR_NAME;
         sql = "INSERT INTO color(color_name) VALUES(:color)";
@@ -82,6 +116,23 @@ module.exports = {
         console.log(prod_id);
         sql = "SELECT c.*, CASE  WHEN c.color_id is not null THEN (select sb.color_name from color sb where sb.color_id = c.color_id) ELSE null END as parent FROM PRODUCTO_COLOR c where c.product_id = :prod_id";
         dao.open(sql,[prod_id],false,res);
+    },
+    productsbycategory: async (req, res, next) =>{
+        const cat_id = parseInt(req.body.CATEGORY_ID);
+        sql = "SELECT p.* FROM PRODUCT p where p.CATEGORY_ID = :cat_id";
+        dao.open(sql,[cat_id],false,res);
+    },
+    productsearch: async (req, res, next) =>{
+        const patron = req.body.PATRON;
+        console.log(patron);
+        sql = "select * from product where lower(product_name) like lower('%'||:patron||'%') or lower(prod_description) like lower('%'||:patron||'%')";
+        dao.open(sql,[patron],false,res);
+    },
+    get_products_cart: async (req, res, next) =>{
+        const id = req.body.ID_USUARIO;
+        console.log(id);
+        sql = "SELECT cp.*, p.* FROM product p INNER JOIN cart_product cp ON cp.product_id = p.product_id and cp.usuario_id = :id";
+        dao.open(sql,[id],false,res);
     }
     
 };

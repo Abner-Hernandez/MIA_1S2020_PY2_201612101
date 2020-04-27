@@ -1,7 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { UsersService } from 'src/app/services/users.service';
-import { MatDialog, MatSnackBar, ErrorStateMatcher } from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateUserComponent } from '../create-user/create-user.component';
 import { FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { Tipousuario } from 'src/app/models/tipousuario';
@@ -152,7 +154,7 @@ export class CrudUserComponent implements OnInit {
   }
 
   subirImagen(){
-    this.imagenService.subir("profile-"+localStorage.getItem("username"),this.fi).subscribe(
+    this.imagenService.subir("profile-"+localStorage.getItem("id"),this.fi).subscribe(
       (res: any) =>{
         this._snackBar.open("Se Subio Correctamente la Fotografia.", "", {
           duration: 2000,

@@ -1,13 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { User } from 'src/app/models/user';
 import { ReportesService } from 'src/app/services/reportes.service';
-import { User, UserBitacora } from 'src/app/models/user';
-import { BitacoraUsuario, Bitacora } from 'src/app/models/bitacora';
-import { formatDate } from '@angular/common';
-import { EstructuraReporte, Estructura } from 'src/app/models/estructura';
-import * as jspdf from 'jspdf';
-import html2canvas from 'html2canvas';
-import { BitacoraService } from 'src/app/services/bitacora.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Producto } from 'src/app/models/producto';
 
 @Component({
   selector: 'app-reportes',
@@ -16,128 +11,152 @@ import { BitacoraService } from 'src/app/services/bitacora.service';
 })
 export class ReportesComponent implements OnInit {
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  reporte2: number = 0 ;
+  displayedColumns2: string[] = ['NO_IDENTIFICADOR', 'USERNAME', 'NOMBRE', 'TIPO_USUARIO'];
+  REPORTE2: User[];
 
-  datosXYear: User[] = [];
-  displayedColumns: string[] = ['USERNAME', 'CORREO', 'NOMBRE', 'APELLIDO', 'FECHA'];
-  panelEstado = false;
-  sYear: number = 0;
+  reporte3: number = 0 ;
+  displayedColumns3: string[] = ['NO_IDENTIFICADOR', 'USERNAME', 'NOMBRE', 'TIPO_USUARIO'];
+  REPORTE3: User[];
 
-  dataTree: EstructuraReporte[] = [];
-  displayedColumnsTree: string[] = ['ID', 'NOMBRE', 'PROPIETARIO', 'TIPO', 'PADRE'];
+  reporte4: number = 0 ;
+  displayedColumns4: string[] = ['NO_IDENTIFICADOR', 'USERNAME', 'NOMBRE', 'TIPO_USUARIO'];
+  REPORTE4: User[];
 
-  txtEstructura: string = "";
-  fmin = new Date();
-  fmax = new Date();
-  dataEstructuras: BitacoraUsuario[] = [];
-  dataEUsers: User[] = [];
-  displayedColumnsClientess: string[] = ['NOMBRE', 'APELLIDO', 'USERNAME', 'TIPO'];
+  displayedColumns6: string[] = ['NOMBRE', 'VENTAS'];
+  REPORTE6: any[];
 
-  datosBitacora: BitacoraUsuario[] = [];
-  displayedColumnsbitacora: string[] = ['ID', 'USUARIO', 'ESTRUCTURA', 'ACCION', 'FECHA'];
+  displayedColumns7: string[] = ['NOMBRE', 'PRODUCTOS'];
+  REPORTE7: any[];
 
-  fecha = new Date();
-  dataXDate: UserBitacora[] = [];
-  displayedColumnsDate: string[] = ['USERNAME', 'CORREO', 'NOMBRE', 'APELLIDO', 'FECHA', 'ESTRUCTURAS'];
+  reporte10: number = 0 ;
+  displayedColumns10: string[] = ['NOMBRE', 'CODIGO', 'PRICE'];
+  REPORTE10: Producto[];
 
-
-  constructor(private reporteService: ReportesService, private bitacoraService: BitacoraService) { }
+  constructor(private reportesService: ReportesService, private _snackBar: MatSnackBar, private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.bitacoraService.getBitacora().subscribe(
-      (datosByAPI: BitacoraUsuario[]) => {
-        
-        this.dataEstructuras = datosByAPI;
-      }
-    );
+
   }
 
-  buscarPerYear() {
-    this.reporteService.getXYear(this.sYear).subscribe(
-      (datosByAPI: User[]) => {
-        this.datosXYear = datosByAPI;
-      }
-    );
-  }
-
-  obtenerBitacora() {
-    if (this.panelEstado)
-      this.reporteService.getBitacora().subscribe(
-        (datosByAPI: BitacoraUsuario[]) => {
-          this.datosBitacora = datosByAPI;
-        }
-      );
-  }
-
-  //a: string ="";
-
-  searchPerDate() {
-    //this.a = formatDate(this.fecha,"dd/MM/yyyy","en-US");
-
-    this.reporteService.getXEstructura(formatDate(this.fecha, "dd/MM/yyyy", "en-US")).subscribe(
-      (dataByAPI: UserBitacora[]) => {
-        console.log(dataByAPI);
-        this.dataXDate = dataByAPI;
-      }
-    );
-  }
-
-  getTree() {
-    //if(this.panelEstado)
-    this.reporteService.getTree().subscribe(
-      (dataByAPI: EstructuraReporte[]) => {
-        //console.log(dataByAPI);
-        this.dataTree = dataByAPI;
-      }
-    );
-  }
-
-  searchPerFolder(){
-    console.log("sdasdasd");
-    this.reporteService.getXFolder(formatDate(this.fmin,'dd/MM/yyyy','en-US'),formatDate(this.fmax,'dd/MM/yyyy','en-US'),this.txtEstructura).subscribe(
-      (dataByAPI: User[]) =>{
-        console.log(dataByAPI);
-        this.dataEUsers = dataByAPI;
-    });
-  }
-
-  imprimir(v: number) {
-    var data;
-    var tit;
-
-    switch (v) {
-      case 1:
-        data = document.getElementById('XYEAR');
-        tit = "DatosPorAño";
-        break;
+  reporte(opc: number) {
+    switch (opc) {
       case 2:
-        data = document.getElementById('TREE');
-        tit = "Arbol";
+        if(this.reporte2 < 1)
+          return;
+        this.reportesService.reporte2(this.reporte2).subscribe(
+          (usersByAPI: User[]) => {
+            this.REPORTE2 = usersByAPI;
+            this.changeDetectorRefs.detectChanges();
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al Obtener los Usuarios", "", {
+              duration: 2000,
+            });
+          }
+        );        
         break;
       case 3:
-        //data = document.getElementById('TREE');
-        //tit = "Arbol";
+        if(this.reporte3 < 1)
+          return;
+        this.reportesService.reporte3(this.reporte2).subscribe(
+          (usersByAPI: User[]) => {
+            this.REPORTE3 = usersByAPI;
+            this.changeDetectorRefs.detectChanges();
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al Obtener los Usuarios", "", {
+              duration: 2000,
+            });
+          }
+        );    
+        //this.router.navigate(['datos']);
         break;
       case 4:
-        data = document.getElementById('BITACORA');
-        tit = "Bitacora";
+        this.reportesService.reporte4().subscribe(
+          (usersByAPI: User[]) => {
+            this.REPORTE4 = usersByAPI;
+            this.changeDetectorRefs.detectChanges();
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al Obtener los Productos.", "", {
+              duration: 2000,
+            });
+          }
+        );
         break;
-      case 5:
-        data = document.getElementById('REGISTRADOS');
-        tit = "Clientes Registrados";
+      case 6:
+        this.reportesService.reporte6().subscribe(
+          (api: any[]) => {
+            this.REPORTE6 = api;
+            this.changeDetectorRefs.detectChanges();
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al Obtener los Usuarios.", "", {
+              duration: 2000,
+            });
+          }
+        );
         break;
-    }
-    tit +='-'+ formatDate(new Date(),'dd-MM-yyyy','en-US');
-    html2canvas(data).then(canvas => {
-      var imgWidth = 208;
-      var imgHeight = 295;
+      case 7:
+        this.reportesService.reporte7().subscribe(
+          (api: any[]) => {
+            this.REPORTE7 = api;
+            this.changeDetectorRefs.detectChanges();
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al Obtener los Usuarios.", "", {
+              duration: 2000,
+            });
+          }
+        );
+        break;
+      case 10:
+        this.reportesService.reporte10(this.reporte10).subscribe(
+          (api: Producto[]) => {
+            this.REPORTE10 = api;
+            this.changeDetectorRefs.detectChanges();
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al Obtener los productos.", "", {
+              duration: 2000,
+            });
+          }
+        );
+        break;
 
-      const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-      
-      pdf.addImage(contentDataURL, 'PNG', 0, 0, imgWidth, imgHeight)
-      pdf.save(tit + '.pdf');
-    });
+    }
   }
+
+/*
+metodo get
+    this.userService.drop(row).subscribe(
+      res => {
+        this._snackBar.open("Se Elimino Correctamente al Usuario.", "", {
+          duration: 2000,
+        });
+        this.refresh();
+      },
+      error => {
+        this._snackBar.open("Hubo un Error al Eliminar el Usuario.", "", {
+          duration: 2000,
+        });
+      }
+    );
+
+    post
+
+    this.userService.get().subscribe(
+      (usersByAPI: User[]) => {
+        this.ELEMENT_DATA = usersByAPI;
+        this.changeDetectorRefs.detectChanges();
+      },
+      error => {
+        this._snackBar.open("Hubo un Error al Obtener los Usuarios del Sistema", "", {
+          duration: 2000,
+        });
+      }
+    );
+*/
 
 }

@@ -5,29 +5,32 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ReportesService {
-  readonly URL_API = "http://192.168.43.45:3000/api/reportes";
+  readonly URL_API = "http://localhost:3000/api/reportes";
   
   constructor(private http: HttpClient) { }
 
-  getXYear(year: number){
-    return this.http.post(this.URL_API+'/xYear',{ YEAR: year.toString()});
+  reporte2(year: number){
+    return this.http.post(this.URL_API+'/reporte2',{YEAR: year});
   }
 
-  getBitacora(){
-    return this.http.get(this.URL_API+'/bitacora');
+  reporte3(year: number){
+    return this.http.post(this.URL_API+'/reporte3',{YEAR: year});
   }
 
-  getXEstructura(fecha: string){
-    return this.http.post(this.URL_API+'/xEstructuras',{ DATE: fecha });
+  reporte4(){
+    return this.http.get(this.URL_API+'/reporte4');
   }
 
-  getXFolder(fmin: string, fmax: string, nombre: string){
-    return this.http.post(this.URL_API+'/xFolder',{ NOMBRE: nombre, FMIN: fmin, FMAX: fmax });
+  reporte6(){
+    return this.http.get(this.URL_API+'/reporte6');
   }
 
-  getTree(){
-    return this.http.get(this.URL_API+'/tree');
+  reporte7(){
+    return this.http.get(this.URL_API+'/reporte7');
   }
 
+  reporte10(disponibles: number){
+    return this.http.post(this.URL_API+'/reporte10',{ DISPONIBLES: disponibles});
+  }
 
 }

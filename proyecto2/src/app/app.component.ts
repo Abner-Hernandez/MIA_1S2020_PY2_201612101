@@ -1,11 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { DatosService } from './services/datos.service';
 import { User } from './models/user';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { Datos } from './models/datos';
+import { CreateFacturaComponent } from './components/create-factura/create-factura.component';
+import { ReportesComponent } from './components/reportes/reportes.component';
 
 @Component({
   selector: 'app-root',
@@ -116,6 +118,11 @@ export class AppComponent {
     this.router.navigate(['']);
   }
 
+  irTienda()
+  {
+    this.router.navigate(['tienda']);
+  }
+
   opciones(opc: number) {
     switch (opc) {
       case 1:
@@ -132,6 +139,27 @@ export class AppComponent {
         break;
       case 5:
         this.router.navigate(['categorias']);
+        break;
+      case 6:
+        this.router.navigate(['tienda']);
+        break;
+      case 8:
+        const dialogRef1 = this.dialog.open(ReportesComponent, {
+          width: '800px',
+        });
+    
+        dialogRef1.afterClosed().subscribe(result => {
+          
+        });
+        break;
+      case 9:
+        const dialogRef = this.dialog.open(CreateFacturaComponent, {
+          width: '800px',
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          
+        });
         break;
     }
   }
