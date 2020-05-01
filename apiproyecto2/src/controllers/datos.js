@@ -4,11 +4,11 @@ const dao = require("../dbo/dao");
 module.exports = {
     
     information: async (req,res,next) =>{
-        sql = "select * from page_data";
+        sql = "select * from page_data where id = 1 ";
         dao.open(sql,[],false,res);
     },
     uDatos: async (req,res,next) =>{
-        sql = "update page_data set page_name = :page_name, page_slogan = :page_slogan, page_logo = :page_logo, page_video = :page_video, page_mission = :page_mission, page_vision = :page_vision, page_about = :page_about";
+        sql = "update page_data set page_name = :page_name, page_slogan = :page_slogan, page_logo = :page_logo, page_video = :page_video, page_mission = :page_mission, page_vision = :page_vision, page_about = :page_about where id = 1";
         const page_name = req.body.PAGE_NAME;
         const page_slogan = req.body.PAGE_SLOGAN;
         const page_logo = req.body.PAGE_LOGO;

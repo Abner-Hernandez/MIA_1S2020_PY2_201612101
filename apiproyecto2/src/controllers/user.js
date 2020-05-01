@@ -21,7 +21,7 @@ module.exports = {
         const credito = parseInt(req.body.AVAILABLE_CREDIT);
         const id_genero = parseInt(req.body.GENDER_ID);
         sql = "begin insertar_usuario(:nombre,:apellido,:password,:correo,:direccion,:telefono,:credito,:fecha_nacimiento,:id_cliente_t,:id_tipo_usuario,:id_genero); end;";
-        //console.log(user_id,nombre,apellido,password,username,correo,direccion,telefono,credito,fecha_nacimiento,id_cliente_t,id_tipo_usuario,id_genero);
+        console.log(nombre,apellido,password,correo,direccion,telefono,credito,fecha_nacimiento,id_cliente_t,id_tipo_usuario,id_genero);
         dao.open(sql,[nombre,apellido,password,correo,direccion,telefono,credito,fecha_nacimiento,id_cliente_t,id_tipo_usuario,id_genero],true,res);
     },
     insertSync: async (req, res,next) =>{

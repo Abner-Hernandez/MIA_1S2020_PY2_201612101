@@ -133,6 +133,7 @@ export class CreateUserComponent implements OnInit {
     this.mail.asunto = "Activacion de la cuenta";
     this.mail.destino = this.user.MAIL;
 
+    /*
     this.infoService.getInformation().subscribe(
       (infoApi: Datos[]) => {
         this.mail.page_logo = infoApi[0].PAGE_LOGO;
@@ -154,7 +155,8 @@ export class CreateUserComponent implements OnInit {
         });
       }
     );
-
+    */
+    
     //AVAILABLE_CREDIT,CLASS_CLIENT_ID,
     this.userService.post(this.user).subscribe(
       res => {
