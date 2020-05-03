@@ -35,9 +35,9 @@ CREATE TABLE usuario(
     gender_id NUMBER NOT NULL,
     estado NUMBER NOT NULL,
     PRIMARY KEY(usuario_id),
-    FOREIGN KEY(class_client_id) REFERENCES type_client(class_client_id) ON DELETE CASCADE,
-    FOREIGN KEY(type_usuario_id) REFERENCES type_usuario(type_usuario_id) ON DELETE CASCADE,
-    FOREIGN KEY(gender_id) REFERENCES gender(gender_id) ON DELETE CASCADE
+    FOREIGN KEY(class_client_id) REFERENCES type_client(class_client_id),
+    FOREIGN KEY(type_usuario_id) REFERENCES type_usuario(type_usuario_id),
+    FOREIGN KEY(gender_id) REFERENCES gender(gender_id)
 );
 
 CREATE TABLE category(
@@ -46,7 +46,7 @@ CREATE TABLE category(
     category_parent NUMBER,
     descripcion VARCHAR2(300),
     PRIMARY KEY(category_id),
-    FOREIGN KEY(category_id) REFERENCES category(category_id) ON DELETE CASCADE
+    FOREIGN KEY(category_id) REFERENCES category(category_id)
 );
 
 CREATE TABLE product(

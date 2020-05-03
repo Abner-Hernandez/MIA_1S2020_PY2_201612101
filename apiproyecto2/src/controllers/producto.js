@@ -141,7 +141,7 @@ module.exports = {
     masive_load: async (req, res, next) =>{
         const usuario = parseInt(req.body.USUARIO_ID);
         sql = "begin move_to_temp(:usuario); end;";
-        dao.open(sql,[usuario],false,res);
+        dao.open(sql,[usuario],true,res);
     }
     
 };

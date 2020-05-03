@@ -91,4 +91,12 @@ export class productService {
   eliminar_producto_color(color: Color){
     return this.http.post(this.URL_API+'/productocolore', color);
   }
+
+  carga_masiva(user: number){
+    return this.http.post(this.URL_API+'/carga_masiva', {USUARIO_ID: user});
+  }
+
+  carga_masivad(){
+    return this.http.get(this.URL_API+'/delete_aux');
+  }
 }

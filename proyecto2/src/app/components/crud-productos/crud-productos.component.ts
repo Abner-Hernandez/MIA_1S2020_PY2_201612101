@@ -355,6 +355,18 @@ export class CrudProductosComponent implements OnInit {
         this._snackBar.open("Se Subio Correctamente el archivo de carga.", "", {
           duration: 2000,
         });
+
+        this.productService.carga_masivad().subscribe(
+          (res: any) =>{
+            this._snackBar.open("Se elimino el contenido de la tabla temp.", "", {
+              duration: 2000,
+            });
+          },err =>{
+            this._snackBar.open("Hubo un Error al eliminar el contenido de temp.", "", {
+              duration: 2000,
+            });
+          }
+        );
       },err =>{
         this._snackBar.open("Hubo un Error al Subir el archivo de carga.", "", {
           duration: 2000,
@@ -362,4 +374,22 @@ export class CrudProductosComponent implements OnInit {
       }
     );
   }
+
+  complete()
+  {
+    this.productService.carga_masiva(parseInt(localStorage.getItem("id"))).subscribe(
+      (res: any) =>{
+        this._snackBar.open("Se elimino el contenido de la tabla temp.", "", {
+          duration: 2000,
+  
+          
+        });
+      },err =>{
+        this._snackBar.open("Hubo un Error al eliminar el contenido de temp.", "", {
+          duration: 2000,
+        });
+      }
+    );
+  }
+
 }

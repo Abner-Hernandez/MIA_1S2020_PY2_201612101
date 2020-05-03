@@ -60,8 +60,11 @@ app.post('/api/archivo/subir', upload.single('file'), (req,res) => {
     return res.send(req.file);
 });
 
-app.get('/api/producto/cargamasiva', (req,res) => {
+
+app.get('/api/producto/cargamasivad', (req,res) => {
     //terminal.stdin.write('node --version\n');
+    terminal.stdin.write('docker cp /home/Archivos/masive.csv c74cd1533346:Archivos/masive.csv\n');
+    terminal.stdin.write('docker cp /home/Archivos/carga_productos.ctl c74cd1533346:Archivos/carga_productos.ctl\n');
 /*
     console.log("vamos");
     terminal.stdin.write('docker exec -it c74cd1533346 bash\n');
@@ -75,15 +78,15 @@ app.get('/api/producto/cargamasiva', (req,res) => {
     terminal.stdin.write('export PATH=$ORACLE_HOME/bin:$PATH\n');
     terminal.stdin.write('cd Archivos/\n');
     terminal.stdin.write('sqlldr userid=Abner/renovation control=carga_productos.ctl\n');
-*/
     //terminal.stdin.write('cp ../proyecto2/src/assets/masive.csv /home/Archivos/\n');
     //terminal.stdin.write('docker cp /home/Archivos/masive.csv c74cd1533346:Archivos/masive.csv\n');
-    
+    */
     
     //terminal.stdin.write('ls\n');
     //terminal.stdin.write('docker cp /home/Archivos/carga_productos.ctl c74cd1533346:Archivos/carga_productos.ctl\n');
     return res.send({RESPUESTA: 'correcto'});
 });
+
 
 terminal.stdout.on('data', function (data) { 
     console.log('stdout: ' + data); 

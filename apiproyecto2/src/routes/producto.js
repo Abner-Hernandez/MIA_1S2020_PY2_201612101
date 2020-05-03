@@ -46,7 +46,7 @@ router.post("/productsbycategory", productsbycategory);
 router.post("/productsearch", productsearch);
 router.post("/products_cart", get_products_cart);
 router.get("/delete_aux",eliminar_aux_table);
-router.get("/carga_masiva",masive_load);
+router.post("/carga_masiva",masive_load);
 
 
 
