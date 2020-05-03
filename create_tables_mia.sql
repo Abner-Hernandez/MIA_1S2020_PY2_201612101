@@ -720,3 +720,110 @@ select * from (SELECT u.usuario_name, COUNT(*)PRODUCTOS from usuario u INNER JOI
 
 /*Todos los productos que tengan ​ X ​ cantidad disponible*/
 select p.* from product p where p.available_number = disponibles;
+
+
+/*Como insertar un producto*/
+
+CREATE OR REPLACE FUNCTION f_split_string_into_array
+(pi_str IN VARCHAR2
+,pi_delimiter IN VARCHAR2
+) RETURN nt_split_result
+IS
+lv_list nt_split_result := nt_split_result();
+lv_position INTEGER := 1;
+lv_result INTEGER := 1;
+
+BEGIN
+IF LENGTH(pi_str) != 0
+THEN
+LOOP
+lv_result := INSTR(pi_str,pi_delimiter,lv_position);
+-- weitergehen, ggf. mehrere Delimiter hintereinander im String
+IF lv_result = lv_position THEN
+lv_position := lv_position+1;
+CONTINUE;
+END IF;
+-- einen Teilstring zwischen zwei Delimiter gefunden
+IF lv_result > lv_position THEN
+lv_list.extend;
+lv_list(lv_list.last) := SUBSTR(pi_str,lv_position,lv_result-lv_position);
+lv_position := lv_result+1;
+CONTINUE;
+END IF;
+-- was am Ende gefunden und dann beende die Loop
+IF lv_result = 0 AND lv_position <= LENGTH(pi_str) THEN
+lv_list.extend;
+lv_list(lv_list.last) := SUBSTR(pi_str,lv_position,LENGTH(pi_str)-lv_position+1);
+EXIT;
+END IF;
+-- am Ende - beende die Loop
+IF lv_position > LENGTH(pi_str) THEN
+EXIT;
+END IF;
+END LOOP;
+END IF;
+
+RETURN lv_list;
+EXCEPTION
+WHEN OTHERS THEN
+RAISE;
+END f_split_string_into_array;
+/
+
+ /*enviar la cadena Ropa-Dama-blusa y retorna el id de la ultima categoria*/
+CREATE OR REPLACE FUNCTION insert_colors_by_cadena(cadena VARCHAR2)
+RETURN INTEGER 
+is
+id_categoria  integer := 0;
+lv_list nt_split_result := nt_split_result();
+BEGIN
+
+lv_list := f_split_string_into_array(cadena,'-');
+
+FOR i IN 1..lv_list.COUNT() LOOP
+
+if(i > 1)
+then
+     insertar_categoria(lv_list(i-1), lv_list(i), null);
+else
+     insertar_categoria(lv_list(i),null, null);
+end if;
+
+select c.category_id into id_categoria from category c where c.category_name = lv_list(i);
+END LOOP;
+
+RETURN id_categoria;
+END insert_and_get_id;
+
+/* carga de temporales a finales*/
+create or replace procedure move_to_temp (usuario_id integer)
+is
+id_productac integer := 0;
+id_color integer := 0;
+lv_list nt_split_result := nt_split_result();
+categoria_a integer := 0;
+begin
+  for o in (select ms.cantidad, ms.categoria, ms.codigo, ms.color, ms.descripcion, ms.nombre, ms.precio, ms.url,  count(*) from masive_charge ms group by ms.cantidad, ms.categoria, ms.codigo, ms.color, ms.descripcion, ms.nombre, ms.precio, ms.url)
+  loop
+  categoria_a := insert_and_get_id(o.categoria);
+    INSERT INTO product(product_name, product_cod, price, usuario_id, available_number, prod_description, register_date, category_id, url_img) 
+    VALUES(o.nombre, o.codigo, to_number(o.precio), usuario_id, to_number(o.cantidad), o.descripcion, (SELECT TO_CHAR (SYSDATE, 'DD/MM/YYYY') "NOW" FROM DUAL), categoria_a, o.url);
+    
+    select p.product_id into id_productac from product p where p.usuario_id = usuario_id and p.product_name = o.nombre and p.product_cod = o.codigo;
+    
+    lv_list := f_split_string_into_array(o.color,'-');
+    FOR i IN 1..lv_list.COUNT() LOOP
+    
+        BEGIN
+        INSERT INTO color(color_name) VALUES(lv_list(i));
+        EXCEPTION 
+            when DUP_VAL_ON_INDEX then
+                null; -- do something or ignore the error
+        END;
+        
+        select c.color_id into id_color from color c where c.color_name = lv_list(i);
+        INSERT INTO PRODUCTO_COLOR(COLOR_ID, PRODUCT_ID) VALUES(id_color, id_productac);
+    END LOOP;
+
+  end loop;
+end move_to_temp;

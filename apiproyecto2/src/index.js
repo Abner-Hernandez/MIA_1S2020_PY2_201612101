@@ -62,8 +62,26 @@ app.post('/api/archivo/subir', upload.single('file'), (req,res) => {
 
 app.get('/api/producto/cargamasiva', (req,res) => {
     //terminal.stdin.write('node --version\n');
-    terminal.stdin.write('cp ../proyecto2/src/assets/masive.csv /home/Archivos/\n');
-    terminal.stdin.write('docker cp /home/Archivos/masive.csv c74cd1533346:/cargamasiva/masive.csv\n');
+/*
+    console.log("vamos");
+    terminal.stdin.write('docker exec -it c74cd1533346 bash\n');
+    terminal.stdin.write('ls\n');
+
+    /*
+    terminal.stdin.write('gosu oracle bash\n');
+    terminal.stdin.write('export ORACLE_SID=ORCL18\n');
+    terminal.stdin.write('export ORACLE_BASE=/u01/app/oracle\n');
+    terminal.stdin.write('export ORACLE_HOME=/u01/app/oracle/product/18.0.0/dbhome_1\n');
+    terminal.stdin.write('export PATH=$ORACLE_HOME/bin:$PATH\n');
+    terminal.stdin.write('cd Archivos/\n');
+    terminal.stdin.write('sqlldr userid=Abner/renovation control=carga_productos.ctl\n');
+*/
+    //terminal.stdin.write('cp ../proyecto2/src/assets/masive.csv /home/Archivos/\n');
+    //terminal.stdin.write('docker cp /home/Archivos/masive.csv c74cd1533346:Archivos/masive.csv\n');
+    
+    
+    //terminal.stdin.write('ls\n');
+    //terminal.stdin.write('docker cp /home/Archivos/carga_productos.ctl c74cd1533346:Archivos/carga_productos.ctl\n');
     return res.send({RESPUESTA: 'correcto'});
 });
 

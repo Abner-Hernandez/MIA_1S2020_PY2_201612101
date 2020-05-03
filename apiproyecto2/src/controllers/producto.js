@@ -133,6 +133,15 @@ module.exports = {
         console.log(id);
         sql = "SELECT cp.*, p.* FROM product p INNER JOIN cart_product cp ON cp.product_id = p.product_id and cp.usuario_id = :id";
         dao.open(sql,[id],false,res);
+    },
+    eliminar_aux_table: async (req, res, next) =>{
+        sql = "delete from masive_charge";
+        dao.open(sql,[],true,res);
+    },
+    masive_load: async (req, res, next) =>{
+        const usuario = parseInt(req.body.USUARIO_ID);
+        sql = "begin move_to_temp(:usuario); end;";
+        dao.open(sql,[usuario],false,res);
     }
     
 };
