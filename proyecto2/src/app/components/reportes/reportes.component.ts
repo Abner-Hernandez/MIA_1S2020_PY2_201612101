@@ -3,6 +3,7 @@ import { User } from 'src/app/models/user';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Producto } from 'src/app/models/producto';
+import { Bitacora } from 'src/app/models/bitacora';
 
 @Component({
   selector: 'app-reportes',
@@ -32,6 +33,9 @@ export class ReportesComponent implements OnInit {
   reporte10: number = 0 ;
   displayedColumns10: string[] = ['NOMBRE', 'CODIGO', 'PRICE'];
   REPORTE10: Producto[];
+
+  displayedColumns11: string[] = ['NOMBRE', 'CORREO', 'DESCRIPCION', 'FECHA'];
+  REPORTE11: Bitacora[];
 
   constructor(private reportesService: ReportesService, private _snackBar: MatSnackBar, private changeDetectorRefs: ChangeDetectorRef) { }
 
@@ -115,6 +119,19 @@ export class ReportesComponent implements OnInit {
         this.reportesService.reporte10(this.reporte10).subscribe(
           (api: Producto[]) => {
             this.REPORTE10 = api;
+            this.changeDetectorRefs.detectChanges();
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al Obtener los productos.", "", {
+              duration: 2000,
+            });
+          }
+        );
+        break;
+      case 11:
+        this.reportesService.reporte11().subscribe(
+          (api: Bitacora[]) => {
+            this.REPORTE11 = api;
             this.changeDetectorRefs.detectChanges();
           },
           error => {

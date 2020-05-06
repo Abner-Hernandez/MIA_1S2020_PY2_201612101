@@ -6,6 +6,5 @@ const {
 } = require("../controllers/bitacora");
 
 router.get("/",obtener);
-router.post("/insertar",insertar);
 
 module.exports = router;

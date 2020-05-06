@@ -36,7 +36,6 @@ app.use("/api/generos",require("./routes/genero"));
 app.use("/api/tipouser",require("./routes/tipouser"));
 app.use("/api/tipocliente",require("./routes/tipocliente"));
 app.use("/api/correo",require("./routes/email"));
-app.use("/api/disco",require("./routes/disco"));
 app.use("/api/bitacora",require("./routes/bitacora"));
 app.use("/api/reportes",require("./routes/reportes"));
 app.use("/api/categoria",require("./routes/categoria"));

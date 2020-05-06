@@ -145,7 +145,7 @@ export class AppComponent {
         break;
       case 8:
         const dialogRef1 = this.dialog.open(ReportesComponent, {
-          width: '800px',
+          width: '1500px',
         });
     
         dialogRef1.afterClosed().subscribe(result => {

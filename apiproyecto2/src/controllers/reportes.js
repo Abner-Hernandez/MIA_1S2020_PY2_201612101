@@ -29,4 +29,8 @@ module.exports = {
         sql = "select p.* from product p where p.available_number = :disponibles";
         dao.open(sql,[disponibles],false,res);
     },
+    reporte11: async (req, res, next) =>{
+        sql = "select b.*, u.usuario_name, u.mail from bitacora b , usuario u where b.usuario_id = u.usuario_id";
+        dao.open(sql,[],false,res);
+    },
 };

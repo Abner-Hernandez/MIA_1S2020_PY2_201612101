@@ -56,4 +56,8 @@ export class UsersService {
   sync(us:User){
     return this.http.post(this.URL_API+'/sync',us);
   }
+
+  bitacora(us: string, ac : string){
+    return this.http.post(this.URL_API+'/bitacora',{USUARIO: us,ACCION: ac});
+  }
 }

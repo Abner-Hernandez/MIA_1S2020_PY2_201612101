@@ -78,5 +78,12 @@ module.exports = {
         const id = req.body.MAIL;
         console.log(id);
         dao.open(sql,[id],false,res);
+    },
+    bitacora: async (req,res,next) => {
+        sql = "begin insertar_bitacora(:usuario, :accion); end;";
+        const usuario = parseInt(req.body.USUARIO);
+        const accion = req.body.ACCION;
+        console.log(req.body);
+        dao.open(sql,[usuario,accion],false,res);
     }
 };

@@ -1,4 +1,3 @@
-<mat-card class="contenedor">
   <div class="titulo">
     <h1>Reportes</h1>
   </div>
@@ -230,5 +229,47 @@
         </mat-table>
       </mat-expansion-panel>
     </mat-accordion>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Bitacora
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <button (click)="reporte(11)">
+          <mat-icon>description</mat-icon>
+        </button>
+
+        <mat-table [dataSource]="REPORTE11" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="NOMBRE">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.USUARIO_NAME}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="CORREO">
+            <mat-header-cell *matHeaderCellDef> Correo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.MAIL}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="DESCRIPCION">
+            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.ACCION}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="FECHA">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.FECHA}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns11"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns11;"></mat-row>
+        </mat-table>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+
+
   </div>
-</mat-card>

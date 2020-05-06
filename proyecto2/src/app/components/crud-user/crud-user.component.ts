@@ -13,6 +13,8 @@ import { GeneroService } from 'src/app/services/genero.service';
 import { Router } from '@angular/router';
 import { ArchivoService } from 'src/app/services/archivo.service';
 import { formatDate } from '@angular/common';
+import { TipoclienteService } from 'src/app/services/tipocliente.service';
+import { Tipocliente } from 'src/app/models/tipocliente';
 
 export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -48,11 +50,12 @@ export class CrudUserComponent implements OnInit {
 
   genero = new FormControl('', [Validators.required]);
   generos: Genero[] = [];
+  tipoClientes: Tipocliente[] = [];
 
   fi: any;
 
   constructor(private userService: UsersService, private changeDetectorRefs: ChangeDetectorRef,
-    public dialog: MatDialog,private tipoU: TipousuarioService, private gener: GeneroService,
+    public dialog: MatDialog,private tipoU: TipousuarioService, private gener: GeneroService,private tipoC: TipoclienteService,
     private _snackBar: MatSnackBar, private router: Router, private imagenService: ArchivoService) { }
 
   ngOnInit() {
@@ -76,6 +79,11 @@ export class CrudUserComponent implements OnInit {
         this.generos = generosByApi;
       }
     );
+    this.tipoC.getTipoCliente().subscribe(
+      (tiposByApi: Tipocliente[]) => {
+        this.tipoClientes = tiposByApi;
+      }
+    );
   }
 
   edit(row: any): void {
@@ -95,6 +103,18 @@ export class CrudUserComponent implements OnInit {
         this._snackBar.open("Se Elimino Correctamente al Usuario.", "", {
           duration: 2000,
         });
+        this.userService.bitacora(localStorage.getItem("id"), "se elimino el usuario con nombre: " + row.USUARIO_NAME).subscribe(
+          res => {
+            this._snackBar.open("Se Inserto en bitacora.", "", {
+              duration: 2000,
+            });
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al insertar en bitacora.", "", {
+              duration: 2000,
+            });
+          }
+        );
         this.refresh();
       },
       error => {
@@ -107,11 +127,26 @@ export class CrudUserComponent implements OnInit {
 
   create() {
     this.user.BIRTH_DATE = formatDate(this.fecha,"dd/MM/yyyy",'en-US');
+    var id_random = Math.floor(Math.random() * (this.tipoClientes.length - 0 + 1) ) + 0;
+    this.user.CLASS_CLIENT_ID = id_random+1;
+    this.user.AVAILABLE_CREDIT = this.tipoClientes[id_random].CREDIT_AMOUNT;
     this.userService.post(this.user).subscribe(
       res => {
         this._snackBar.open("Se Creo Correctamente al Usuario.", "", {
           duration: 2000,
         });
+        this.userService.bitacora(localStorage.getItem("id"), "se creo el usuario con nombre: " + this.user.USUARIO_NAME).subscribe(
+          res => {
+            this._snackBar.open("Se Inserto en bitacora.", "", {
+              duration: 2000,
+            });
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al insertar en bitacora.", "", {
+              duration: 2000,
+            });
+          }
+        );
         this.refresh();
       },
       error => {

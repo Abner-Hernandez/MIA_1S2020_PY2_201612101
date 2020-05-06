@@ -32,5 +32,9 @@ export class ReportesService {
   reporte10(disponibles: number){
     return this.http.post(this.URL_API+'/reporte10',{ DISPONIBLES: disponibles});
   }
-
+  
+  reporte11(){
+    return this.http.get(this.URL_API+'/reporte11');
+  }
+  
 }

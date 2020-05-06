@@ -112,6 +112,18 @@ export class CreateUserComponent implements OnInit {
         this._snackBar.open("Se Actualizo correctamente al Usuario.", "", {
           duration: 2000,
         });
+        this.userService.bitacora(localStorage.getItem("id"), "se realizaron cambios al usuario con nombre: " + this.user.USUARIO_NAME).subscribe(
+          res => {
+            this._snackBar.open("Se Inserto en bitacora.", "", {
+              duration: 2000,
+            });
+          },
+          error => {
+            this._snackBar.open("Hubo un Error al insertar en bitacora.", "", {
+              duration: 2000,
+            });
+          }
+        );
       },
       error => {
         this._snackBar.open("Hubo un Error al actualizar el Usuario.", "", {

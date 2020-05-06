@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Bitacora } from '../models/bitacora';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +14,5 @@ export class BitacoraService {
     return this.http.get(this.URL_API);
   }
 
-  insertarBitacora(b: Bitacora){
-    return this.http.post(this.URL_API+'/insertar',b);
-  }
 
 }

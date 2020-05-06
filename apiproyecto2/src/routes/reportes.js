@@ -6,7 +6,8 @@ const {
     reporte4,
     reporte6,
     reporte7,
-    reporte10
+    reporte10,
+    reporte11
 } = require("../controllers/reportes");
 
 router.post("/reporte2",reporte2);
@@ -15,6 +16,7 @@ router.get("/reporte4",reporte4);
 router.get("/reporte6",reporte6);
 router.get("/reporte7",reporte7);
 router.post("/reporte10",reporte10);
+router.get("/reporte11",reporte11);
 
 
 module.exports = router;

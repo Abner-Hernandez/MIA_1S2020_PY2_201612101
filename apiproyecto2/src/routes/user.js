@@ -10,7 +10,8 @@ const {
     drop,
     verificar,
     reenviarCorreo,
-    getidusuario
+    getidusuario,
+    bitacora
 } = require("../controllers/user");
 
 router.get("/",index);
@@ -23,6 +24,7 @@ router.post("/delete",drop);
 router.get("/verificar/:username",verificar);
 router.post("/reenviar",reenviarCorreo);
 router.post("/id",getidusuario);
+router.post("/bitacora",bitacora);
 
 
 module.exports = router;

@@ -92,7 +92,7 @@
     <mat-grid-list cols="2" rowHeight="1:1">
       <mat-grid-tile  *ngFor="let n of productos">
 
-        <img mat-card-image class="img" src="{{n.URL_IMG}}" (dblclick)="see_product(n)">
+        <img width="300px" height="300px" src="{{n.URL_IMG}}" (dblclick)="see_product(n)">
         <div>
           <p>{{n.PRODUCT_NAME}}</p>
           <p>Precio: {{n.PRICE}}</p>
