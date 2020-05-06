@@ -495,6 +495,25 @@ BEGIN
 COMMIT;  
 END;  
 
+
+/* bitacora */
+CREATE TABLE bitacora(
+    usuario_id NUMBER NOT NULL,
+    accion varchar2(100),
+    fecha varchar2(50),
+    FOREIGN KEY(usuario_id) REFERENCES usuario(usuario_id) ON DELETE CASCADE
+);
+
+CREATE OR REPLACE PROCEDURE insertar_bitacora (  
+    usuario bitacora.usuario_id%TYPE,  
+    accion bitacora.accion%TYPE)
+IS
+BEGIN
+    INSERT INTO bitacora(usuario_id, accion, fecha) 
+    VALUES(usuario, accion,(SELECT TO_CHAR (SYSDATE, 'DD/MM/YYYY') "NOW" FROM DUAL));
+COMMIT;  
+END;  
+
 /* product insert shoping cart*/
 /*
 CREATE OR REPLACE PROCEDURE insertar_producto_carrito (  
